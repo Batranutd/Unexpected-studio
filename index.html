@@ -219,9 +219,15 @@ section{padding-block:var(--pad);position:relative}
 /* ============ ABOUT ============ */
 .about{background:var(--paper-2);border-block:1px solid var(--line-soft)}
 .about-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:clamp(28px,5vw,72px);align-items:start}
+.portrait-wrap{position:relative;isolation:isolate}
+.orb{position:absolute;width:100px;height:100px;border-radius:50%;background:var(--accent);
+  display:block}
+.orb-back{top:-34px;right:-30px;z-index:-1;opacity:.9}
+.orb-front{bottom:-30px;left:-28px;z-index:2;opacity:.9;
+  box-shadow:0 18px 40px -16px var(--accent-glow)}
 .portrait{aspect-ratio:4/5;border-radius:22px;border:1px solid var(--line-soft);position:relative;
   overflow:hidden;background:var(--paper);display:grid;place-items:center;box-shadow:var(--shadow-soft)}
-.portrait img{width:100%;height:100%;object-fit:cover}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:center}
 .about-grid h2{font-size:clamp(1.9rem,4.2vw,3.2rem);margin-bottom:22px}
 .about-grid p+p{margin-top:16px}
 .about-grid p{color:var(--ink-dim);max-width:62ch}
@@ -233,7 +239,16 @@ section{padding-block:var(--pad);position:relative}
 .tools span{-webkit-user-select:none;user-select:none;pointer-events:none;cursor:default}
 
 /* ============ CONTACT ============ */
-.contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,64px)}
+.contact{position:relative}
+.contact-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,5vw,64px);align-items:start}
+.contact-card{padding:clamp(24px,3vw,36px);border-radius:26px;border:1px solid var(--line-soft);
+  background:var(--paper);box-shadow:var(--shadow-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
+.chip{padding:9px 16px;border-radius:100px;border:1px solid var(--line);background:var(--paper);
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  transition:.3s var(--ease);cursor:pointer}
+.chip:hover{border-color:var(--accent);box-shadow:var(--shadow-soft);transform:translateY(-2px)}
+.chip[aria-pressed="true"]{background:var(--accent);color:#0B0B0C;border-color:var(--accent)}
 .contact h2{font-size:clamp(2.3rem,6.2vw,4.8rem)}
 .field{display:block;margin-bottom:16px}
 .field span{display:block;margin-bottom:7px}
@@ -262,10 +277,12 @@ footer{padding-block:34px;border-top:1px solid var(--line-soft)}
 /* ============ BACK TO TOP ============ */
 .totop{position:fixed;right:max(2.4vw,16px);bottom:26px;z-index:70;width:50px;height:50px;
   border-radius:50%;display:grid;place-items:center;background:var(--glass);
-  border:1px solid var(--line-soft);box-shadow:var(--shadow-soft);opacity:.5;
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:.35s var(--ease)}
-.totop:hover{background:var(--accent);color:#0B0B0C;transform:translateY(-3px);
-  box-shadow:var(--shadow);opacity:1}
+  border:1px solid var(--line-soft);box-shadow:var(--shadow-soft);
+  opacity:0;pointer-events:none;transform:translateY(10px);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);transition:.4s var(--ease)}
+.totop.on{opacity:1;pointer-events:auto;transform:none}
+.totop:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.totop.active{background:var(--accent);color:#0B0B0C;border-color:var(--accent)}
 .totop svg{width:16px;height:16px;fill:currentColor}
 
 /* ============ MODAL ============ */
@@ -334,10 +351,10 @@ blockquote footer{border:0;padding:14px 0 0}
   padding:0 6px}
 .lightbox img{max-width:100%;max-height:82vh;width:auto;border-radius:14px;
   box-shadow:0 40px 90px -30px rgba(0,0,0,.8);cursor:default}
-.lb-dots{position:absolute;left:0;right:0;bottom:26px;display:flex;justify-content:center;gap:8px}
-.lb-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35);
-  transition:.3s var(--ease);cursor:pointer}
-.lb-dots span.on{background:var(--accent);transform:scale(1.25)}
+.lb-count{position:absolute;left:0;right:0;bottom:26px;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.8rem;letter-spacing:.16em;color:#fff;
+  text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.lb-count b{color:var(--accent);font-weight:500}
 .lightbox .modal-close{color:#fff;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25)}
 .modal-hero img,.gallery img{cursor:zoom-in}
 
@@ -367,7 +384,8 @@ blockquote footer{border:0;padding:14px 0 0}
   .card,.card:nth-child(4n+1),.card:nth-child(4n+2),
   .card:nth-child(4n+3),.card:nth-child(4n+4){grid-column:span 12}
   .about-grid,.contact-grid{grid-template-columns:1fr}
-  .portrait{max-width:340px}
+  .portrait-wrap{max-width:340px}
+  .orb{width:74px;height:74px}
   .reel-frame{aspect-ratio:16/9}
 }
 @media(max-width:560px){.nav-in{padding:8px 10px 8px 16px}}
@@ -404,13 +422,12 @@ blockquote footer{border:0;padding:14px 0 0}
 
 <header class="hero" id="top">
   <div class="shell">
-    <div class="wordmark rv">UNEXPECTED<span class="dot"></span>STUDIO</div>
     <h1 class="rv" data-d="1">
-      <span data-ro="Creativ AI &amp; fotograf<span class='dot-y'>.</span>"
-            data-en="AI creative &amp; photographer<span class='dot-y'>.</span>">Creativ AI &amp; fotograf<span class="dot-y">.</span></span>
+      <span data-ro="AI Artist &amp; fotograf<span class='dot-y'>.</span>"
+            data-en="AI Artist &amp; photographer<span class='dot-y'>.</span>">AI Artist &amp; fotograf<span class="dot-y">.</span></span>
     </h1>
     <div class="hero-row rv" data-d="3">
-      <a class="btn btn-solid" href="#work" data-ro="Vezi lucrările" data-en="See the work">Vezi lucrările</a>
+      <a class="btn btn-ghost" href="#work" data-ro="Vezi lucrările" data-en="See the work">Vezi lucrările</a>
       <a class="btn btn-ghost" href="#contact" data-ro="Scrie-mi" data-en="Get in touch">Scrie-mi</a>
     </div>
 
@@ -435,9 +452,6 @@ blockquote footer{border:0;padding:14px 0 0}
       <div>
         <h2 data-ro="Portofoliu" data-en="Selected work">Portofoliu</h2>
       </div>
-      <p data-ro="Șapte proiecte care arată cele două jumătăți ale meseriei: generativ și fotografic."
-         data-en="Seven projects showing both halves of the job: generative and photographic.">
-        Șapte proiecte care arată cele două jumătăți ale meseriei: generativ și fotografic.</p>
     </div>
     <div class="filters rv" role="group">
       <button data-f="all" aria-pressed="true" data-ro="Toate" data-en="All">Toate</button>
@@ -452,7 +466,11 @@ blockquote footer{border:0;padding:14px 0 0}
 
 <section class="about" id="about">
   <div class="shell about-grid">
-    <div class="portrait rv"><img src="assets/img/portrait.webp" alt="Alex" loading="lazy"></div>
+    <div class="portrait-wrap rv">
+      <span class="orb orb-back"></span>
+      <div class="portrait"><img src="assets/img/portrait.webp" alt="Alex" loading="lazy"></div>
+      <span class="orb orb-front"></span>
+    </div>
     <div>
       <h2 class="rv" data-d="1" data-ro="Cine sunt<span class='dot-y'>.</span>"
           data-en="Who I am<span class='dot-y'>.</span>">Cine sunt<span class="dot-y">.</span></h2>
@@ -481,10 +499,10 @@ blockquote footer{border:0;padding:14px 0 0}
 <section class="contact" id="contact">
   <div class="shell contact-grid">
     <div>
-      <h2 class="rv" data-d="1" data-ro="Ai un proiect?" data-en="Got a project?">Ai un proiect?</h2>
+      <h2 class="rv" data-d="1" data-ro="Ai un proiect<span class='dot-y'>?</span>" data-en="Got a project<span class='dot-y'>?</span>">Ai un proiect<span class="dot-y">?</span></h2>
       <p class="rv" data-d="2" style="color:var(--ink-dim);margin-top:18px;max-width:44ch"
          data-ro="Răspund în maximum 24 de ore. Dacă ai deja un brief, trimite-l direct, îți spun în două rânduri dacă se poate face și în cât timp."
-         data-en="I reply within 24 hours. If you already have a brief, send it and I'll tell you in two lines whether it's doable and how fast.">
+         data-en="I reply within 24 hours. If you already have a brief, send it and I&apos;ll tell you in two lines whether it&apos;s doable and how fast.">
         Răspund în maximum 24 de ore. Dacă ai deja un brief, trimite-l direct, îți spun în două rânduri dacă se poate face și în cât timp.</p>
       <div class="direct rv" data-d="3">
         <a href="mailto:contact.unexpected.studio@gmail.com"><span class="mono">Email</span><span>contact.unexpected.studio@gmail.com</span></a>
@@ -493,18 +511,30 @@ blockquote footer{border:0;padding:14px 0 0}
         <a href="https://instagram.com/unexpected.raw"><span class="mono">Instagram</span><span>@unexpected.raw</span></a>
       </div>
     </div>
-    <form class="rv" data-d="2" action="https://api.web3forms.com/submit" method="POST" id="form">
+    <form class="contact-card rv" data-d="2" action="https://api.web3forms.com/submit" method="POST" id="form">
       <!-- config: access key gratuit de pe web3forms.com; pana atunci formularul cade pe mailto -->
       <input type="hidden" name="access_key" value="INLOCUIESTE-CU-ACCESS-KEY">
       <input type="hidden" name="subject" value="Mesaj nou de pe site">
+      <input type="hidden" name="tip_proiect" id="ftip" value="">
       <input type="checkbox" name="botcheck" style="display:none">
+      <p class="mono" data-ro="La ce lucrăm?" data-en="What are we working on?">La ce lucrăm?</p>
+      <div class="chips" id="chips">
+        <button type="button" class="chip" aria-pressed="false" data-ro="Clip video" data-en="Video">Clip video</button>
+        <button type="button" class="chip" aria-pressed="false" data-ro="Reclame" data-en="Ads">Reclame</button>
+        <button type="button" class="chip" aria-pressed="false" data-ro="Fotografie" data-en="Photography">Fotografie</button>
+        <button type="button" class="chip" aria-pressed="false" data-ro="Social media" data-en="Social media">Social media</button>
+        <button type="button" class="chip" aria-pressed="false" data-ro="Altceva" data-en="Something else">Altceva</button>
+      </div>
       <label class="field"><span class="mono" data-ro="Nume" data-en="Name">Nume</span>
-        <input name="name" required></label>
+        <input name="name" autocomplete="name" required></label>
       <label class="field"><span class="mono">Email</span>
-        <input type="email" name="email" required></label>
+        <input type="email" name="email" autocomplete="email" required></label>
+      <label class="field"><span class="mono" data-ro="Telefon (opțional)" data-en="Phone (optional)">Telefon (opțional)</span>
+        <input type="tel" name="phone" autocomplete="tel"></label>
       <label class="field"><span class="mono" data-ro="Mesaj" data-en="Message">Mesaj</span>
         <textarea name="message" required></textarea></label>
-      <button class="btn btn-solid" type="submit" data-ro="Trimite" data-en="Send">Trimite</button>
+      <button class="btn btn-solid" type="submit" style="width:100%;justify-content:center;min-height:52px"
+              data-ro="Trimite" data-en="Send">Trimite</button>
       <p class="form-note" id="note"></p>
     </form>
   </div>
@@ -525,7 +555,7 @@ blockquote footer{border:0;padding:14px 0 0}
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagine">
   <button class="modal-close" data-lb-close aria-label="Close">✕</button>
   <div class="lb-track" id="lb-track"></div>
-  <div class="lb-dots" id="lb-dots"></div>
+  <div class="lb-count" id="lb-count"></div>
 </div>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true">
@@ -664,12 +694,12 @@ grid.addEventListener("click",e=>{
   const card=e.target.closest(".card");if(!card)return;
   const w=WORK.find(x=>x.id==card.dataset.id),c=w[LANG],t=T[LANG],src=cover(w);
   mIn.innerHTML=`
+   <h2>${c.t}</h2>
    ${w.hasVideo?`<div class="modal-hero modal-video" id="mv">
        <video id="mvv" playsinline preload="metadata" poster="${src}" src="${video(w)}"></video>
        <button class="playbtn" id="mvbtn" aria-label="Play">
          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
      </div>`:`<div class="modal-hero"><img src="${src}" alt="${c.t}" ${fallbackJpg}></div>`}
-   <h2>${c.t}</h2>
    <p class="lead">${c.s}</p>
    <div class="spec modal-spec">
      <span>${T[LANG].year} <b>${w.year}</b></span>
@@ -685,23 +715,22 @@ grid.addEventListener("click",e=>{
   requestAnimationFrame(()=>modal.classList.add("show"));
 });
 const lb=document.getElementById("lightbox"),lbTrack=document.getElementById("lb-track"),
-      lbDots=document.getElementById("lb-dots");
+      lbCount=document.getElementById("lb-count");
+let lbTotal=0;
 function openLB(list,i){
   lbTrack.innerHTML=list.map(s=>`<figure><img src="${s}" alt=""></figure>`).join("");
-  lbDots.innerHTML=list.map((_,n)=>`<span data-i="${n}"></span>`).join("");
+  lbTotal=list.length;
   lb.classList.add("open");
   requestAnimationFrame(()=>{lb.classList.add("show");
     lbTrack.scrollLeft=i*lbTrack.clientWidth;syncDots()});
 }
 function syncDots(){
   const i=Math.round(lbTrack.scrollLeft/Math.max(lbTrack.clientWidth,1));
-  lbDots.querySelectorAll("span").forEach((d,n)=>d.classList.toggle("on",n===i));
+  lbCount.innerHTML=`<b>${Math.min(i+1,lbTotal)}</b> / ${lbTotal}`;
 }
 lbTrack.addEventListener("scroll",syncDots,{passive:true});
-lbDots.addEventListener("click",e=>{const d=e.target.closest("span");
-  if(d){e.stopPropagation();lbTrack.scrollTo({left:d.dataset.i*lbTrack.clientWidth,behavior:"smooth"})}});
 function closeLB(){lb.classList.remove("show");
-  setTimeout(()=>{lb.classList.remove("open");lbTrack.innerHTML="";lbDots.innerHTML=""},300)}
+  setTimeout(()=>{lb.classList.remove("open");lbTrack.innerHTML="";lbCount.innerHTML=""},300)}
 mIn.addEventListener("click",e=>{
   const pb=e.target.closest("#mvbtn");
   if(pb){const v=document.getElementById("mvv");
@@ -714,7 +743,7 @@ mIn.addEventListener("click",e=>{
   const idx=Math.max(0,imgs.indexOf(img.src));
   openLB(list,img.closest(".modal-hero")?0:idx);
 });
-lb.addEventListener("click",e=>{if(!e.target.closest("img, .lb-dots"))closeLB()});
+lb.addEventListener("click",e=>{if(!e.target.closest("img, .lb-count"))closeLB()});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&lb.classList.contains("open"))closeLB()});
 
 function closeModal(){modal.classList.remove("show");
@@ -746,6 +775,15 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
 function observe(){document.querySelectorAll(".rv:not(.in)").forEach(el=>io.observe(el))}
 
+const chips=document.getElementById("chips");
+chips.addEventListener("click",e=>{
+  const c=e.target.closest(".chip");if(!c)return;
+  const on=c.getAttribute("aria-pressed")==="true";
+  chips.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));
+  c.setAttribute("aria-pressed",String(!on));
+  document.getElementById("ftip").value=!on?c.textContent.trim():"";
+});
+
 document.getElementById("form").addEventListener("submit",async e=>{
   e.preventDefault();const f=e.target,note=document.getElementById("note");
   if(f.access_key.value.startsWith("INLOCUIESTE")){
@@ -766,8 +804,13 @@ burger.onclick=()=>setMenu(!navtools.classList.contains("open"));
 scrim.onclick=()=>setMenu(false);
 navtools.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
 
-const totop=document.getElementById("totop");
-addEventListener("scroll",()=>{totop.style.opacity=scrollY>320?"1":".5"},{passive:true});
+const totop=document.getElementById("totop"),workSec=document.getElementById("work");
+totop.addEventListener("click",()=>totop.classList.add("active"));
+addEventListener("scroll",()=>{
+  const start=workSec.offsetTop-window.innerHeight*.5;
+  totop.classList.toggle("on",scrollY>start);
+  if(totop.classList.contains("active")&&scrollY>0)totop.classList.remove("active");
+},{passive:true});
 document.getElementById("yr").textContent=new Date().getFullYear();
 try{renderGrid();observe()}catch(err){console.error(err)}
 </script>
