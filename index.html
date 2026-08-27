@@ -164,7 +164,7 @@ section{padding-block:var(--pad);position:relative}
   flex-wrap:wrap;margin-bottom:48px}
 h2.uline{position:relative;padding-bottom:.3em}
 h2.uline::after{content:"";position:absolute;left:0;bottom:0;height:5px;border-radius:999px;
-  background:var(--accent);width:max(5px,var(--uw,60%));transition:width .12s linear}
+  background:var(--accent);width:max(5px,var(--uw,8rem));transition:width .12s linear}
 .head h2{font-size:clamp(2.1rem,5.2vw,4rem)}
 .head p{max-width:38ch;color:var(--ink-dim)}
 
@@ -398,7 +398,7 @@ blockquote footer{border:0;padding:14px 0 0}
   .card,.card:nth-child(4n+1),.card:nth-child(4n+2),
   .card:nth-child(4n+3),.card:nth-child(4n+4){grid-column:span 12}
   .about-grid,.contact-grid{grid-template-columns:1fr}
-  .portrait-wrap{max-width:340px;margin-bottom:60px}
+  .portrait-wrap{max-width:340px;margin-inline:auto;margin-bottom:60px}
   .orb{width:74px;height:74px}
   .orb-front{bottom:-34px;left:-22px}
   .reel-frame{aspect-ratio:16/9}
@@ -735,7 +735,8 @@ grid.addEventListener("click",e=>{
   modal.querySelector(".modal-panel").scrollTop=0;
   buildGallery(w);
   const mh=mIn.querySelector("h2");
-  if(mh){mh.classList.add("uline");mh.style.setProperty("--uw","60%");}
+  if(mh){mh.classList.add("uline");
+    requestAnimationFrame(()=>{mh.dataset.ubase=textW(mh).toFixed(1);setLine(mh,0)});}
   syncLines();
   history.pushState({modal:w.id},"","#"+w.slug);
   requestAnimationFrame(()=>modal.classList.add("show"));
@@ -777,10 +778,7 @@ modal.querySelector(".modal-panel").addEventListener("scroll",e=>{
   const v=document.getElementById("mvv");
   if(v&&!v.paused)v.pause();
   const mh=mIn.querySelector("h2.uline");
-  if(mh){
-    const p=Math.min(1,Math.max(0,e.target.scrollTop/260));
-    mh.style.setProperty("--uw",(60-60*p).toFixed(1)+"%");
-  }
+  if(mh)setLine(mh,Math.min(1,Math.max(0,e.target.scrollTop/260)));
   syncLines();
 },{passive:true});
 addEventListener("scroll",()=>{
@@ -834,7 +832,8 @@ function setLang(l){LANG=l;document.documentElement.lang=l;
   document.getElementById("btn-ro").setAttribute("aria-pressed",l==="ro");
   document.getElementById("btn-en").setAttribute("aria-pressed",l==="en");
   const a=document.querySelector('.filters button[aria-pressed="true"]');
-  renderGrid(a?a.dataset.f:"all")}
+  renderGrid(a?a.dataset.f:"all");
+  if(typeof measureLines==="function")requestAnimationFrame(measureLines)}
 document.getElementById("btn-ro").onclick=()=>setLang("ro");
 document.getElementById("btn-en").onclick=()=>setLang("en");
 
@@ -850,18 +849,35 @@ themeBtn.onclick=()=>{
 const ulines=[...document.querySelectorAll("#work .head h2, .about-grid h2, .contact h2")];
 ulines.forEach(el=>el.classList.add("uline"));
 let uTick=false;
+/* latimea de start = 60% din latimea reala a textului, nu a containerului */
+function textW(el){
+  const r=document.createRange();r.selectNodeContents(el);
+  const rects=[...r.getClientRects()].filter(x=>x.width>1);
+  const w=rects.length?Math.max(...rects.map(x=>x.width)):el.getBoundingClientRect().width;
+  return w*.6;
+}
+function measureLines(){
+  ulines.forEach(el=>{el.dataset.ubase=textW(el).toFixed(1)});
+  syncLines();
+}
+function setLine(el,p){
+  const base=parseFloat(el.dataset.ubase||0)||textW(el);
+  el.style.setProperty("--uw",Math.max(5,base*(1-p)).toFixed(1)+"px");
+}
 function syncLines(){
   const vh=innerHeight;
   ulines.forEach(el=>{
+    if(el.closest(".modal-in"))return;
     const t=el.getBoundingClientRect().top;
     let p=(vh*.7-t)/(vh*.45);
-    p=Math.min(1,Math.max(0,p));
-    el.style.setProperty("--uw",(60-60*p).toFixed(1)+"%");
+    setLine(el,Math.min(1,Math.max(0,p)));
   });
   uTick=false;
 }
 addEventListener("scroll",()=>{if(!uTick){uTick=true;requestAnimationFrame(syncLines)}},{passive:true});
-syncLines();
+addEventListener("resize",measureLines);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measureLines);
+measureLines();
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
