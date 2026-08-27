@@ -251,8 +251,9 @@ h2.uline::after{content:"";position:absolute;left:0;bottom:0;height:5px;border-r
 .contact-card{padding:clamp(24px,3vw,36px);border-radius:26px;border:1px solid var(--line-soft);
   background:var(--paper);box-shadow:var(--shadow-soft)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
-.chip{padding:9px 16px;border-radius:100px;border:1px solid var(--line);background:var(--paper);
-  font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+.chip{padding:9px 14px;border-radius:100px;border:1px solid var(--line);background:var(--paper);
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;
+  white-space:nowrap;
   transition:.3s var(--ease);cursor:pointer}
 .chip:hover{border-color:var(--accent);box-shadow:var(--shadow-soft);transform:translateY(-2px)}
 .chip[aria-pressed="true"]{background:var(--accent);color:#0B0B0C;border-color:var(--accent)}
@@ -472,7 +473,7 @@ blockquote footer{border:0;padding:14px 0 0}
       <button data-f="all" aria-pressed="true" data-ro="Toate" data-en="All">Toate</button>
       <button data-f="video" aria-pressed="false">AI Video</button>
       <button data-f="imagery" aria-pressed="false">AI Foto</button>
-      <button data-f="photo" aria-pressed="false" data-ro="Fotografie" data-en="Photography">Fotografie</button>
+      <button data-f="photo" aria-pressed="false" data-ro="Foto" data-en="Photography">Foto</button>
       <button data-f="social" aria-pressed="false">Social Media</button>
     </div>
     <div class="grid" id="grid"></div>
@@ -534,9 +535,9 @@ blockquote footer{border:0;padding:14px 0 0}
       <input type="checkbox" name="botcheck" style="display:none">
       <p class="mono" data-ro="La ce lucrăm?" data-en="What are we working on?">La ce lucrăm?</p>
       <div class="chips" id="chips">
-        <button type="button" class="chip" aria-pressed="false" data-ro="Clip video" data-en="Video">Clip video</button>
+        <button type="button" class="chip" aria-pressed="false" data-ro="Video" data-en="Video">Video</button>
         <button type="button" class="chip" aria-pressed="false" data-ro="Reclame" data-en="Ads">Reclame</button>
-        <button type="button" class="chip" aria-pressed="false" data-ro="Fotografie" data-en="Photography">Fotografie</button>
+        <button type="button" class="chip" aria-pressed="false" data-ro="Foto" data-en="Photography">Foto</button>
         <button type="button" class="chip" aria-pressed="false" data-ro="Social media" data-en="Social media">Social media</button>
         <button type="button" class="chip" aria-pressed="false" data-ro="Altceva" data-en="Something else">Altceva</button>
       </div>
