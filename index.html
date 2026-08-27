@@ -163,8 +163,8 @@ section{padding-block:var(--pad);position:relative}
 .head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
   flex-wrap:wrap;margin-bottom:48px}
 h2.uline{position:relative;padding-bottom:.3em}
-h2.uline::after{content:"";position:absolute;left:0;bottom:0;height:3px;border-radius:3px;
-  background:var(--accent);width:max(4px,var(--uw,60%));transition:width .12s linear}
+h2.uline::after{content:"";position:absolute;left:0;bottom:0;height:5px;border-radius:999px;
+  background:var(--accent);width:max(5px,var(--uw,60%));transition:width .12s linear}
 .head h2{font-size:clamp(2.1rem,5.2vw,4rem)}
 .head p{max-width:38ch;color:var(--ink-dim)}
 
@@ -726,11 +726,16 @@ grid.addEventListener("click",e=>{
      <span>${T[LANG].tools} <b>${w.tools}</b></span>
    </div>
    <div class="metrics">${w.m.map(m=>`<div class="metric"><b>${m[0]}</b><span class="mono">${LANG==="ro"?m[1]:m[2]}</span></div>`).join("")}</div>
-   <div class="gallery">${shots(w).map(s=>`<img src="${s}" alt="" loading="lazy" onload="if(this.naturalWidth>=this.naturalHeight)this.classList.add('wide')" ${fallbackJpg}>`).join("")}</div>
+   <div class="gallery" id="gal"></div>
    <div class="hero-row modal-actions"><a class="btn btn-solid" href="#contact" data-close>${t.cta}</a>
      <button class="btn btn-ghost" data-close>${t.back}</button></div>`;
   modal.classList.add("open");document.body.style.overflow="hidden";
   modal.querySelector(".modal-panel").scrollTop=0;
+  buildGallery(w);
+  const mh=mIn.querySelector("h2");
+  if(mh){mh.classList.add("uline");if(!ulines.includes(mh))ulines.push(mh);}
+  syncLines();
+  history.pushState({modal:w.id},"","#"+w.slug);
   requestAnimationFrame(()=>modal.classList.add("show"));
 });
 const lb=document.getElementById("lightbox"),lbTrack=document.getElementById("lb-track"),
@@ -769,14 +774,48 @@ addEventListener("keydown",e=>{if(e.key==="Escape"&&lb.classList.contains("open"
 modal.querySelector(".modal-panel").addEventListener("scroll",()=>{
   const v=document.getElementById("mvv");
   if(v&&!v.paused)v.pause();
+  syncLines();
 },{passive:true});
 addEventListener("scroll",()=>{
   const v=document.getElementById("mvv");
   if(v&&!v.paused&&!modal.classList.contains("open"))v.pause();
 },{passive:true});
 
-function closeModal(){modal.classList.remove("show");
-  setTimeout(()=>{modal.classList.remove("open");document.body.style.overflow=""},380)}
+/* Galeria se aseaza dupa forma pozelor: doua verticale pe un rand,
+   apoi una lata sau patrata pe tot randul, si tot asa. */
+function buildGallery(w){
+  const el=document.getElementById("gal");if(!el)return;
+  const load=src=>new Promise(res=>{
+    const im=new Image();
+    im.onload=()=>res({src,v:im.naturalHeight>im.naturalWidth*1.08});
+    im.onerror=()=>{
+      const j=src.replace(/\.webp$/,".jpg"),i2=new Image();
+      i2.onload=()=>res({src:j,v:i2.naturalHeight>i2.naturalWidth*1.08});
+      i2.onerror=()=>res(null);i2.src=j;
+    };
+    im.src=src;
+  });
+  Promise.all(shots(w).map(load)).then(items=>{
+    items=items.filter(Boolean);
+    const V=items.filter(x=>x.v),W=items.filter(x=>!x.v),out=[];
+    while(V.length||W.length){
+      if(V.length)out.push(V.shift());
+      if(V.length)out.push(V.shift());
+      if(W.length)out.push(W.shift());
+    }
+    el.innerHTML=out.map(x=>`<img src="${x.src}" alt="" loading="lazy" class="${x.v?"":"wide"}">`).join("");
+  });
+}
+
+function closeModal(fromHistory){
+  modal.classList.remove("show");
+  setTimeout(()=>{modal.classList.remove("open");document.body.style.overflow=""},380);
+  if(!fromHistory&&history.state&&history.state.modal)history.back();
+}
+addEventListener("popstate",()=>{
+  if(lb.classList.contains("open"))closeLB();
+  if(modal.classList.contains("open"))closeModal(true);
+});
 modal.addEventListener("click",e=>{if(e.target.closest("[data-close]"))closeModal()});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open"))closeModal()});
 grid.addEventListener("keydown",e=>{
