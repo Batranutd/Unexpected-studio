@@ -545,13 +545,17 @@ blockquote footer{border:0;padding:14px 0 0}
    Ca sa adaugi poze: le urci in folder si cresti numarul "shots".
    ============================================================ */
 const BASE="assets/projects/";
-const cover=w=>BASE+w.slug+"/cover.jpg";
+const cover=w=>BASE+w.slug+"/cover.webp";
 const video=w=>BASE+w.slug+"/video.mp4";
-const shots=w=>Array.from({length:w.shots||0},(_,i)=>BASE+w.slug+"/0"+(i+1)+".jpg");
+const pad=n=>String(n).padStart(2,"0");
+/* Pozele pot fi .webp sau .jpg. Site-ul incearca intai .webp;
+   daca fisierul nu exista, trece automat pe .jpg. Poti amesteca. */
+const shots=w=>Array.from({length:w.shots||0},(_,i)=>BASE+w.slug+"/"+pad(i+1)+".webp");
+const fallbackJpg='onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.src.replace(/\\.webp$/,\'.jpg\')}"';
 
 /* Cifrele si testimonialele de mai jos sunt MOCK, pentru feel. Se inlocuiesc cu date reale. */
 const WORK=[
- {id:1,slug:"tur-imobiliar-generativ",shots:4,hasVideo:true,cat:["video","ads","ads"],video:true,tag:"Real Estate",year:"2026",
+ {id:1,slug:"tur-imobiliar-generativ",shots:28,hasVideo:true,cat:["video","ads","ads"],video:true,tag:"Real Estate",year:"2026",
   role:"Regie · Prompt · Montaj",tools:"Seedance 2.0 · Premiere",
   m:[["45s","durată","length"],["11","cadre","shots"],["4K","master","master"]],
   ro:{t:"Tur imobiliar generativ",d:"Spot de 45s pentru o vilă de lux, fără echipă de filmare.",
@@ -643,7 +647,7 @@ function renderGrid(f="all"){
     return `<div class="card rv" role="button" tabindex="0" data-d="${i%4}" data-id="${w.id}">
       <span class="glow" style="background-image:url(${src})"></span>
       <div class="card-inner">
-        <div class="card-media"><img src="${src}" alt="${c.t}" loading="lazy">
+        <div class="card-media"><img src="${src}" alt="${c.t}" loading="lazy" ${fallbackJpg}>
           ${w.video?playSvg:""}</div>
         <div class="card-body"><h3>${c.t}</h3><p>${c.d}</p>
           <span class="more">${T[LANG].more}<svg viewBox="0 0 24 24"><path d="M5 12h12m-5-6l6 6-6 6"/></svg></span>
@@ -664,7 +668,7 @@ grid.addEventListener("click",e=>{
        <video id="mvv" playsinline preload="metadata" poster="${src}" src="${video(w)}"></video>
        <button class="playbtn" id="mvbtn" aria-label="Play">
          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-     </div>`:`<div class="modal-hero"><img src="${src}" alt="${c.t}"></div>`}
+     </div>`:`<div class="modal-hero"><img src="${src}" alt="${c.t}" ${fallbackJpg}></div>`}
    <h2>${c.t}</h2>
    <p class="lead">${c.s}</p>
    <div class="spec modal-spec">
@@ -673,7 +677,7 @@ grid.addEventListener("click",e=>{
      <span>${T[LANG].tools} <b>${w.tools}</b></span>
    </div>
    <div class="metrics">${w.m.map(m=>`<div class="metric"><b>${m[0]}</b><span class="mono">${LANG==="ro"?m[1]:m[2]}</span></div>`).join("")}</div>
-   <div class="gallery">${shots(w).map(s=>`<img src="${s}" alt="" loading="lazy">`).join("")}</div>
+   <div class="gallery">${shots(w).map(s=>`<img src="${s}" alt="" loading="lazy" ${fallbackJpg}>`).join("")}</div>
    <div class="hero-row modal-actions"><a class="btn btn-solid" href="#contact" data-close>${t.cta}</a>
      <button class="btn btn-ghost" data-close>${t.back}</button></div>`;
   modal.classList.add("open");document.body.style.overflow="hidden";
