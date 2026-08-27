@@ -86,10 +86,14 @@ section{padding-block:var(--pad);position:relative}
 .nav-links a{font-weight:500;text-transform:uppercase;letter-spacing:.09em;font-size:.78rem;
   color:var(--ink-dim);transition:color .3s var(--ease)}
 .nav-links a:hover{color:var(--accent-ink)}
-.pill{display:flex;border:1px solid var(--line);border-radius:100px;overflow:hidden}
-.pill button{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.1em;
-  padding:6px 10px;color:var(--ink-dim);transition:.3s var(--ease)}
-.pill button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.pill{display:flex;gap:6px}
+.pill button{font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:.74rem;
+  padding:8px 14px;border-radius:100px;border:1px solid var(--line);color:var(--ink-dim);
+  transition:.35s var(--ease)}
+.pill button:hover{border-color:var(--accent);color:var(--accent-ink);box-shadow:var(--shadow-soft);
+  transform:translateY(-2px)}
+.pill button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink);
+  background:var(--paper-2)}
 .switches{display:contents}
 .switch{position:relative;width:52px;height:30px;border-radius:100px;border:1px solid var(--line);
   background:var(--paper-2);flex:none;transition:.35s var(--ease);padding:0}
@@ -105,7 +109,7 @@ section{padding-block:var(--pad);position:relative}
 .nav-cta:hover{background:var(--accent);color:#0B0B0C;box-shadow:0 12px 28px -10px var(--accent-glow)}
 
 /* ============ HERO ============ */
-.hero{padding-top:clamp(126px,14vw,172px);padding-bottom:clamp(40px,5vw,70px)}
+.hero{padding-top:clamp(104px,10vw,132px);padding-bottom:clamp(40px,5vw,70px)}
 .wordmark{font-family:'Milker','Archivo',sans-serif;font-size:clamp(1.9rem,5vw,3.6rem);
   text-transform:uppercase;line-height:1;letter-spacing:.03em;display:flex;gap:.22em;
   align-items:center;flex-wrap:wrap}
@@ -113,7 +117,7 @@ section{padding-block:var(--pad);position:relative}
 .nb{white-space:nowrap;overflow-wrap:normal;word-break:keep-all}
 .wordmark .dot{width:.16em;height:.16em;border-radius:50%;background:var(--accent);
   box-shadow:0 0 22px var(--accent-glow);flex:none;display:inline-block}
-.hero h1{font-size:clamp(2.3rem,7.4vw,6.4rem);margin-top:22px;
+.hero h1{font-size:clamp(2.6rem,8.2vw,7rem);margin-top:0;
   overflow-wrap:normal;word-break:keep-all;hyphens:none}
 .hero h1>span{display:block}
 .hero h1 .dot-y,.hero h1 .nb{display:inline}
@@ -344,10 +348,10 @@ blockquote footer{border:0;padding:14px 0 0}
   opacity:0;transition:opacity .3s var(--ease)}
 .lightbox.open{display:grid}
 .lightbox.show{opacity:1}
-.lb-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;width:100%;height:100%;
+.lb-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;width:100%;height:100%;
   -webkit-overflow-scrolling:touch;scrollbar-width:none}
 .lb-track::-webkit-scrollbar{display:none}
-.lb-track figure{flex:0 0 100%;scroll-snap-align:center;display:grid;place-items:center;
+.lb-track figure{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;display:grid;place-items:center;
   padding:0 6px}
 .lightbox img{max-width:100%;max-height:82vh;width:auto;border-radius:14px;
   box-shadow:0 40px 90px -30px rgba(0,0,0,.8);cursor:default}
@@ -402,7 +406,7 @@ blockquote footer{border:0;padding:14px 0 0}
     <button class="burger" id="burger" aria-expanded="false" aria-label="Meniu"><span></span></button>
     <div class="nav-tools" id="navtools">
     <div class="nav-links">
-      <a href="#work" data-ro="Lucrări" data-en="Work">Lucrări</a>
+      <a href="#work" data-ro="Portofoliu" data-en="Portfolio">Portofoliu</a>
       <a href="#about" data-ro="Despre" data-en="About">Despre</a>
       <a href="#contact" data-ro="Contact" data-en="Contact">Contact</a>
     </div>
