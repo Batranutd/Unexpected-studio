@@ -45,7 +45,7 @@ html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);
   font-family:'Archivo',system-ui,sans-serif;font-weight:300;
   font-size:clamp(15px,1.05vw,17px);line-height:1.65;
-  overflow-x:hidden;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;
+  overflow-x:clip;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;
   transition:background .5s var(--ease),color .5s var(--ease)}
 img,video{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -57,7 +57,7 @@ h3{font-family:'Archivo',sans-serif;font-weight:900;font-stretch:112%;
   text-transform:uppercase;letter-spacing:-.02em;line-height:.95}
 .mono{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-dim);font-weight:500}
-.shell{width:var(--shell);margin-inline:auto}
+.shell{width:var(--shell);margin-inline:auto;max-width:100%}
 section{padding-block:var(--pad);position:relative}
 
 /* ============ NAV ============ */
@@ -117,8 +117,8 @@ section{padding-block:var(--pad);position:relative}
 .nb{white-space:nowrap;overflow-wrap:normal;word-break:keep-all}
 .wordmark .dot{width:.16em;height:.16em;border-radius:50%;background:var(--accent);
   box-shadow:0 0 22px var(--accent-glow);flex:none;display:inline-block}
-.hero h1{font-size:clamp(2.6rem,8.2vw,7rem);margin-top:0;
-  overflow-wrap:normal;word-break:keep-all;hyphens:none}
+.hero h1{font-size:clamp(2.1rem,7vw,6.4rem);margin-top:0;max-width:100%;
+  overflow-wrap:break-word;word-break:normal;hyphens:none}
 .hero h1>span{display:block}
 .hero h1 .dot-y,.hero h1 .nb{display:inline}
 
