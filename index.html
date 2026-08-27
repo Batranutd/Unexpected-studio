@@ -353,6 +353,17 @@ blockquote footer{border:0;padding:14px 0 0}
 .playbtn svg{width:34px;height:34px;fill:#0B0B0C;margin-left:4px}
 .modal-video.playing .playbtn{opacity:0;pointer-events:none;transform:scale(.8)}
 
+/* ============ GALERIE DE CLIPURI ============ */
+.gallery.gal-clips{grid-template-columns:repeat(2,1fr);gap:12px}
+.vthumb{position:relative;padding:0;border:0;background:none;border-radius:14px;overflow:hidden;
+  cursor:pointer;display:block;line-height:0;transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.vthumb:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.vthumb video{width:100%;height:auto;display:block;border-radius:14px;pointer-events:none;background:#000}
+.vthumb .play{left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%);
+  background:var(--accent);border-color:var(--accent);width:54px;height:54px}
+.vthumb .play svg{fill:#0B0B0C}
+@media(max-width:560px){.gallery.gal-clips{grid-template-columns:1fr}}
+
 /* ============ LIGHTBOX ============ */
 .lightbox{position:fixed;inset:0;z-index:120;display:none;place-items:center;padding:24px;
   background:rgba(6,6,7,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
@@ -364,7 +375,7 @@ blockquote footer{border:0;padding:14px 0 0}
 .lb-track::-webkit-scrollbar{display:none}
 .lb-track figure{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;display:grid;place-items:center;
   padding:0 6px}
-.lightbox img{max-width:100%;max-height:82vh;width:auto;border-radius:14px;
+.lightbox img,.lightbox video{max-width:100%;max-height:82vh;width:auto;border-radius:14px;
   box-shadow:0 40px 90px -30px rgba(0,0,0,.8);cursor:default}
 .lb-count{position:absolute;left:0;right:0;bottom:26px;text-align:center;
   font-family:'IBM Plex Mono',monospace;font-size:.8rem;letter-spacing:.16em;color:#fff;
@@ -597,6 +608,10 @@ const pad=n=>String(n).padStart(2,"0");
 /* Pozele pot fi .webp sau .jpg. Site-ul incearca intai .webp;
    daca fisierul nu exista, trece automat pe .jpg. Poti amesteca. */
 const shots=w=>Array.from({length:w.shots||0},(_,i)=>BASE+w.slug+"/"+pad(i+1)+".webp");
+/* Proiectele video au clipuri in galerie: doar c01.mp4, c02.mp4 etc.
+   Miniatura e chiar primul cadru al clipului, fara poza separata. */
+const clips=w=>Array.from({length:w.clips||0},(_,i)=>({
+  src:BASE+w.slug+"/c"+pad(i+1)+".mp4"}));
 const fallbackJpg='onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.src.replace(/\\.webp$/,\'.jpg\')}"';
 
 /* Cifrele si testimonialele de mai jos sunt MOCK, pentru feel. Se inlocuiesc cu date reale. */
@@ -619,6 +634,13 @@ const WORK=[
       s:"Brandul avea nevoie de o campanie care să arate produsul într-o casă reală, cu o pisică reală, dar fără buget de shooting și fără riscul de a lucra cu un animal pe platou. Am construit o pisică proprie ca personaj, am fixat-o într-un character sheet, apoi am generat toată sesiunea în jurul ei: aceeași pisică, aceeași casă scandinavă, aceeași lumină, în toate cadrele. Reclamele au ieșit în două formate, pătrat pentru feed și vertical pentru story, cu și fără text, plus un clip de 20 de secunde cu voice over generat."},
   en:{t:"Don Licu Pisicu",d:"A full campaign for a cat litter brand, with zero shoot days.",
       s:"The brand needed a campaign showing the product in a real home with a real cat, but had no budget for a shoot and no appetite for working with an animal on set. I built the cat as a character first, locked it in a reference sheet, then generated the whole session around it: same cat, same Scandinavian home, same light, across every frame. The ads came out in two formats, square for feed and vertical for stories, with and without copy, plus a 20 second spot with a generated voice over."}},
+ {id:9,slug:"copt-cu-dragoste",clips:4,hasVideo:true,cat:["video","ads","social"],video:true,tag:"Food",year:"2026",
+  role:"Concept · Prompt · Montaj",tools:"Seedance 2.5 · Kling 3.0 · CapCut",
+  m:[["5","clipuri","clips"],["76s","total","total"],["9:16","format","format"]],
+  ro:{t:"Copt cu Dragoste",d:"Serie de cinci clipuri verticale pentru o pizzerie, de la ingrediente la desert.",
+      s:"Pizzeria voia conținut constant pentru social, dar fiecare filmare însemna oprit bucătăria în mijlocul serviciului. Am construit o serie de cinci clipuri verticale care acoperă tot meniul, de la ingrediente și focaccia până la deserturi și oferta de pizza gratis, toate în același limbaj vizual. Fiecare clip stă singur în feed, dar puse cap la cap arată ca o campanie."},
+  en:{t:"Copt cu Dragoste",d:"A five clip vertical series for a pizzeria, from ingredients to dessert.",
+      s:"The pizzeria wanted a steady stream of social content, but every shoot meant stopping the kitchen in the middle of service. I built a series of five vertical clips covering the whole menu, from ingredients and focaccia to desserts and the free pizza offer, all in the same visual language. Each clip stands alone in the feed, but together they read as one campaign."}},
  {id:2,slug:"spot-auto",shots:4,cat:["video"],video:true,tag:"Automotive",year:"2026",
   role:"Concept · Regie",tools:"Seedance 2.0 · Kling 3.0",
   m:[["60s","durată","length"],["14","cadre","shots"],["1","mașină","car"]],
@@ -735,6 +757,7 @@ grid.addEventListener("click",e=>{
      <button class="btn btn-ghost" data-close>${t.back}</button></div>`;
   modal.classList.add("open");document.body.style.overflow="hidden";
   modal.querySelector(".modal-panel").scrollTop=0;
+  currentId=w.id;
   buildGallery(w);
   const mh=mIn.querySelector("h2");
   if(mh){mh.classList.add("uline");
@@ -745,9 +768,12 @@ grid.addEventListener("click",e=>{
 });
 const lb=document.getElementById("lightbox"),lbTrack=document.getElementById("lb-track"),
       lbCount=document.getElementById("lb-count");
-let lbTotal=0;
+let lbTotal=0,currentId=null;
 function openLB(list,i){
-  lbTrack.innerHTML=list.map(s=>`<figure><img src="${s}" alt=""></figure>`).join("");
+  lbTrack.innerHTML=list.map(s=>typeof s==="string"
+    ? `<figure><img src="${s}" alt=""></figure>`
+    : `<figure><video src="${s.src}" controls playsinline preload="metadata"></video></figure>`
+  ).join("");
   lbTotal=list.length;
   lb.classList.add("open");
   requestAnimationFrame(()=>{lb.classList.add("show");
@@ -756,6 +782,7 @@ function openLB(list,i){
 function syncDots(){
   const i=Math.round(lbTrack.scrollLeft/Math.max(lbTrack.clientWidth,1));
   lbCount.innerHTML=`<b>${Math.min(i+1,lbTotal)}</b> / ${lbTotal}`;
+  lbTrack.querySelectorAll("video").forEach((v,n)=>{if(n!==i&&!v.paused)v.pause()});
 }
 lbTrack.addEventListener("scroll",syncDots,{passive:true});
 function closeLB(){lb.classList.remove("show");
@@ -764,6 +791,13 @@ mIn.addEventListener("click",e=>{
   const pb=e.target.closest("#mvbtn");
   if(pb){const v=document.getElementById("mvv");
     document.getElementById("mv").classList.add("playing");v.controls=true;v.play();return}
+  const vt=e.target.closest(".vthumb");
+  if(vt){
+    e.stopPropagation();
+    const w2=WORK.find(x=>x.id==currentId);
+    openLB(clips(w2),parseInt(vt.dataset.i,10));
+    return;
+  }
   const img=e.target.closest(".gallery img, .modal-hero img");
   if(!img)return;
   e.stopPropagation();
@@ -772,7 +806,7 @@ mIn.addEventListener("click",e=>{
   const idx=Math.max(0,imgs.indexOf(img.src));
   openLB(list,img.closest(".modal-hero")?0:idx);
 });
-lb.addEventListener("click",e=>{if(!e.target.closest("img, .lb-count"))closeLB()});
+lb.addEventListener("click",e=>{if(!e.target.closest("img, video, .lb-count"))closeLB()});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&lb.classList.contains("open"))closeLB()});
 
 /* videoul se opreste cand utilizatorul deruleaza */
@@ -792,6 +826,14 @@ addEventListener("scroll",()=>{
    apoi una lata sau patrata pe tot randul, si tot asa. */
 function buildGallery(w){
   const el=document.getElementById("gal");if(!el)return;
+  if(w.clips){
+    el.classList.add("gal-clips");
+    el.innerHTML=clips(w).map((c,i)=>`<button class="vthumb" data-i="${i}">
+      <video src="${c.src}#t=0.5" muted playsinline preload="metadata"></video>
+      <span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+    </button>`).join("");
+    return;
+  }
   const load=src=>new Promise(res=>{
     const im=new Image();
     im.onload=()=>res({src,v:im.naturalHeight>im.naturalWidth*1.08});
