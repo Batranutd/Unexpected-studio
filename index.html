@@ -162,6 +162,9 @@ section{padding-block:var(--pad);position:relative}
 /* ============ HEADS ============ */
 .head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
   flex-wrap:wrap;margin-bottom:48px}
+h2.uline{position:relative;padding-bottom:.3em}
+h2.uline::after{content:"";position:absolute;left:0;bottom:0;height:3px;border-radius:3px;
+  background:var(--accent);width:max(4px,var(--uw,60%));transition:width .12s linear}
 .head h2{font-size:clamp(2.1rem,5.2vw,4rem)}
 .head p{max-width:38ch;color:var(--ink-dim)}
 
@@ -319,13 +322,15 @@ footer{padding-block:34px;border-top:1px solid var(--line-soft)}
   box-shadow:var(--shadow-soft)}
 .metric b{display:block;font-size:2.5rem;font-weight:900;font-stretch:112%;
   color:var(--accent-ink);line-height:1}
-.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:36px 0 40px}
-.gallery img{aspect-ratio:4/5;object-fit:cover;width:100%;border-radius:12px;
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:36px 0 40px;
+  align-items:start}
+.gallery img{width:100%;height:auto;object-fit:contain;border-radius:12px;display:block;
   transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
-.gallery img:hover{transform:scale(1.015);box-shadow:var(--shadow)}
+.gallery img.wide{grid-column:1 / -1}
+.gallery img:hover{transform:scale(1.01);box-shadow:var(--shadow)}
 .modal-actions{display:flex;gap:12px;flex-wrap:nowrap;margin-top:8px;align-items:stretch}
 .modal-actions .btn{min-height:52px;justify-content:center;line-height:1;flex:1;white-space:nowrap}
-@media(min-width:700px){.gallery{grid-template-columns:repeat(4,1fr)}}
+
 blockquote{margin:30px 0;padding:24px 26px;border-left:3px solid var(--accent);
   background:var(--paper-2);border-radius:0 18px 18px 0}
 blockquote p{color:var(--ink);font-weight:400;font-size:1.06rem}
@@ -568,7 +573,6 @@ blockquote footer{border:0;padding:14px 0 0}
 
 <div class="modal" id="modal" role="dialog" aria-modal="true">
   <div class="modal-bg" data-close></div>
-  <button class="modal-close" data-close aria-label="Close">✕</button>
   <div class="modal-panel"><div class="modal-in" id="modal-in"></div></div>
 </div>
 
@@ -722,7 +726,7 @@ grid.addEventListener("click",e=>{
      <span>${T[LANG].tools} <b>${w.tools}</b></span>
    </div>
    <div class="metrics">${w.m.map(m=>`<div class="metric"><b>${m[0]}</b><span class="mono">${LANG==="ro"?m[1]:m[2]}</span></div>`).join("")}</div>
-   <div class="gallery">${shots(w).map(s=>`<img src="${s}" alt="" loading="lazy" ${fallbackJpg}>`).join("")}</div>
+   <div class="gallery">${shots(w).map(s=>`<img src="${s}" alt="" loading="lazy" onload="if(this.naturalWidth>=this.naturalHeight)this.classList.add('wide')" ${fallbackJpg}>`).join("")}</div>
    <div class="hero-row modal-actions"><a class="btn btn-solid" href="#contact" data-close>${t.cta}</a>
      <button class="btn btn-ghost" data-close>${t.back}</button></div>`;
   modal.classList.add("open");document.body.style.overflow="hidden";
@@ -761,6 +765,16 @@ mIn.addEventListener("click",e=>{
 lb.addEventListener("click",e=>{if(!e.target.closest("img, .lb-count"))closeLB()});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&lb.classList.contains("open"))closeLB()});
 
+/* videoul se opreste cand utilizatorul deruleaza */
+modal.querySelector(".modal-panel").addEventListener("scroll",()=>{
+  const v=document.getElementById("mvv");
+  if(v&&!v.paused)v.pause();
+},{passive:true});
+addEventListener("scroll",()=>{
+  const v=document.getElementById("mvv");
+  if(v&&!v.paused&&!modal.classList.contains("open"))v.pause();
+},{passive:true});
+
 function closeModal(){modal.classList.remove("show");
   setTimeout(()=>{modal.classList.remove("open");document.body.style.overflow=""},380)}
 modal.addEventListener("click",e=>{if(e.target.closest("[data-close]"))closeModal()});
@@ -785,6 +799,23 @@ themeBtn.onclick=()=>{
   r.dataset.theme=dark?"light":"dark";
   themeBtn.setAttribute("aria-checked",String(!dark));
 };
+
+/* linia galbena de sub titluri se strange intr-un punct pe masura ce derulezi */
+const ulines=[...document.querySelectorAll("#work .head h2, .about-grid h2, .contact h2")];
+ulines.forEach(el=>el.classList.add("uline"));
+let uTick=false;
+function syncLines(){
+  const vh=innerHeight;
+  ulines.forEach(el=>{
+    const t=el.getBoundingClientRect().top;
+    let p=(vh*.7-t)/(vh*.45);
+    p=Math.min(1,Math.max(0,p));
+    el.style.setProperty("--uw",(60-60*p).toFixed(1)+"%");
+  });
+  uTick=false;
+}
+addEventListener("scroll",()=>{if(!uTick){uTick=true;requestAnimationFrame(syncLines)}},{passive:true});
+syncLines();
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
