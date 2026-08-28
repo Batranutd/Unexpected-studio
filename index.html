@@ -329,6 +329,11 @@ footer{padding-block:34px;border-top:1px solid var(--line-soft)}
 .gallery img{width:100%;height:auto;object-fit:contain;border-radius:12px;display:block;
   transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
 .gallery img.wide{grid-column:1 / -1}
+/* rand cu doua poze de rapoarte diferite: inaltime egala, latimi proportionale */
+.gallery .grow{grid-column:1 / -1;display:flex;gap:10px;align-items:flex-start}
+.gallery .grow img{width:auto;min-width:0;flex-basis:0}
+@media(max-width:560px){.gallery .grow{display:grid;grid-template-columns:1fr}
+  .gallery .grow img{width:100%}}
 .gallery img:hover{transform:scale(1.01);box-shadow:var(--shadow)}
 .modal-actions{display:flex;gap:12px;flex-wrap:nowrap;margin-top:8px;align-items:stretch}
 .modal-actions .btn{min-height:52px;justify-content:center;line-height:1;flex:1;white-space:nowrap}
@@ -648,7 +653,14 @@ const WORK=[
       s:"Pizzeria voia conținut constant pentru social, dar fiecare filmare însemna oprit bucătăria în mijlocul serviciului. Am construit o serie de cinci clipuri verticale care acoperă tot meniul, de la ingrediente și focaccia până la deserturi și oferta de pizza gratis, toate în același limbaj vizual. Fiecare clip stă singur în feed, dar puse cap la cap arată ca o campanie."},
   en:{t:"Copt cu Dragoste",d:"A five clip vertical series for a pizzeria, from ingredients to dessert.",
       s:"The pizzeria wanted a steady stream of social content, but every shoot meant stopping the kitchen in the middle of service. I built a series of five vertical clips covering the whole menu, from ingredients and focaccia to desserts and the free pizza offer, all in the same visual language. Each clip stands alone in the feed, but together they read as one campaign."}},
-{id:11,slug:"doza-de-sanatate",clips:6,hasVideo:true,vert:true,cat:["video","ads","social"],video:true,tag:"Suplimente",year:"2025",
+{id:12,slug:"rodrag-photo",shots:10,hasVideo:true,vert:true,cat:["photo"],video:true,tag:"Fotografie",year:"2025",
+  role:"Fotografie · Editare · Montaj",tools:"Sony · Lightroom · CapCut",
+  m:[["10","cadre","frames"],["1","zi","day"],["0","brief","brief"]],
+  ro:{t:"RoDrag Racing",d:"Fotografie de motorsport, făcută din pasiune, nu la comandă.",
+      s:"Cele mai multe cadre sunt de la RoDrag Racing. Nu au fost făcute pentru niciun client, ci pentru că îmi place locul ăsta: mașini pregătite luni întregi, oameni care le împing la limită și lumina de pe pistă la asfințit. Fotografiez ce mă atrage în momentul ăla, fără listă de cadre și fără brief. Ultima imagine e singura la care am intervenit după, o distorsiune verticală peste un cadru propriu."},
+  en:{t:"RoDrag Racing",d:"Motorsport photography, shot for the love of it, not on assignment.",
+      s:"Most of these frames come from RoDrag Racing. They weren't made for a client, they were made because I love the place: cars built over months, people pushing them to the limit, and the light on the strip at sunset. I shoot whatever pulls me in at that moment, with no shot list and no brief. The last image is the only one I touched afterwards, a vertical distortion over one of my own frames."}},
+ {id:11,slug:"doza-de-sanatate",clips:6,hasVideo:true,vert:true,cat:["video","ads","social"],video:true,tag:"Suplimente",year:"2025",
   role:"Concept · Brief · Personaje · Prompt · Montaj",tools:"Seedance · Kling · ElevenLabs · CapCut",
   m:[["9:16","și 1:1","and 1:1"],["1","om","person"],["0","zile filmare","shoot days"]],
   ro:{t:"Doza de Sănătate",d:"Reclame video pentru suplimente alimentare, construite integral cu AI.",
@@ -802,23 +814,31 @@ function buildGallery(w){
   }
   const load=src=>new Promise(res=>{
     const im=new Image();
-    im.onload=()=>res({src,v:im.naturalHeight>im.naturalWidth*1.08});
+    im.onload=()=>res({src,r:im.naturalWidth/im.naturalHeight,v:im.naturalHeight>im.naturalWidth*1.08});
     im.onerror=()=>{
       const j=src.replace(/\.webp$/,".jpg"),i2=new Image();
-      i2.onload=()=>res({src:j,v:i2.naturalHeight>i2.naturalWidth*1.08});
+      i2.onload=()=>res({src:j,r:i2.naturalWidth/i2.naturalHeight,v:i2.naturalHeight>i2.naturalWidth*1.08});
       i2.onerror=()=>res(null);i2.src=j;
     };
     im.src=src;
   });
   Promise.all(shots(w).map(load)).then(items=>{
     items=items.filter(Boolean);
-    const V=items.filter(x=>x.v),W=items.filter(x=>!x.v),out=[];
+    const V=items.filter(x=>x.v),W=items.filter(x=>!x.v),rows=[];
     while(V.length||W.length){
-      if(V.length)out.push(V.shift());
-      if(V.length)out.push(V.shift());
-      if(W.length)out.push(W.shift());
+      if(V.length>=2)rows.push([V.shift(),V.shift()]);
+      else if(V.length)rows.push([V.shift()]);
+      if(W.length)rows.push([W.shift()]);
     }
-    el.innerHTML=out.map(x=>`<img src="${x.src}" alt="" loading="lazy" class="${x.v?"":"wide"}">`).join("");
+    const tag=x=>`<img src="${x.src}" alt="" loading="lazy" class="${x.v?"":"wide"}">`;
+    el.innerHTML=rows.map(r=>{
+      if(r.length===1)return r[0].v
+        ? `<div class="grow"><img src="${r[0].src}" alt="" loading="lazy" style="flex-grow:${r[0].r.toFixed(4)};max-width:calc(50% - 5px)"></div>`
+        : tag(r[0]);
+      // doua verticale pe rand: latimile urmeaza raportul, deci inaltimea iese identica
+      return `<div class="grow">`+r.map(x=>
+        `<img src="${x.src}" alt="" loading="lazy" style="flex-grow:${x.r.toFixed(4)}">`).join("")+`</div>`;
+    }).join("");
   });
 }
 
