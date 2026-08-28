@@ -359,7 +359,7 @@ blockquote footer{border:0;padding:14px 0 0}
 .vthumb{position:relative;padding:0;border:0;background:none;border-radius:14px;overflow:hidden;
   cursor:pointer;display:block;line-height:0;transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
 .vthumb:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.vthumb video{width:100%;height:auto;display:block;border-radius:14px;pointer-events:none;background:#000}
+.vthumb video{width:100%;height:auto;display:block;border-radius:14px;pointer-events:none;background:transparent}
 .vthumb .play{left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%);
   background:var(--accent);border-color:var(--accent);width:54px;height:54px}
 .vthumb .play svg{fill:#0B0B0C}
@@ -378,8 +378,10 @@ blockquote footer{border:0;padding:14px 0 0}
 .lb-track::-webkit-scrollbar{display:none}
 .lb-track figure{flex:0 0 100%;height:100%;scroll-snap-align:center;scroll-snap-stop:always;
   display:grid;place-items:center;padding:0;overflow:hidden}
-.lightbox video{width:100%;height:100%;object-fit:cover;object-position:center;
-  border-radius:0;background:#000;cursor:default;display:block}
+.lightbox video{max-width:100%;max-height:100%;width:auto;height:auto;
+  object-fit:contain;border-radius:0;background:transparent;cursor:default;display:block}
+/* pe ecran ingust, verticalele umplu inaltimea, patratele umplu latimea */
+@media(max-aspect-ratio:1/1){.lightbox video{width:100%}}
 .lightbox img{max-width:100%;max-height:86vh;width:auto;border-radius:14px;
   box-shadow:0 40px 90px -30px rgba(0,0,0,.8);cursor:default}
 .lb-count{position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:2;text-align:center;
@@ -646,7 +648,14 @@ const WORK=[
       s:"Pizzeria voia conținut constant pentru social, dar fiecare filmare însemna oprit bucătăria în mijlocul serviciului. Am construit o serie de cinci clipuri verticale care acoperă tot meniul, de la ingrediente și focaccia până la deserturi și oferta de pizza gratis, toate în același limbaj vizual. Fiecare clip stă singur în feed, dar puse cap la cap arată ca o campanie."},
   en:{t:"Copt cu Dragoste",d:"A five clip vertical series for a pizzeria, from ingredients to dessert.",
       s:"The pizzeria wanted a steady stream of social content, but every shoot meant stopping the kitchen in the middle of service. I built a series of five vertical clips covering the whole menu, from ingredients and focaccia to desserts and the free pizza offer, all in the same visual language. Each clip stands alone in the feed, but together they read as one campaign."}},
-{id:10,slug:"etsy-wall-art",shots:14,hasVideo:true,vert:true,cat:["video","imagery","ads"],video:true,tag:"Digital Art",year:"2025",
+{id:11,slug:"doza-de-sanatate",clips:4,hasVideo:true,vert:true,cat:["video","ads","social"],video:true,tag:"Suplimente",year:"2025",
+  role:"Concept · Brief · Personaje · Prompt · Montaj",tools:"Seedance · Kling · ElevenLabs · CapCut",
+  m:[["9:16","și 1:1","and 1:1"],["1","om","person"],["0","zile filmare","shoot days"]],
+  ro:{t:"Doza de Sănătate",d:"Reclame video pentru suplimente alimentare, construite integral cu AI.",
+      s:"Am fost angajat ca să produc reclamele video ale brandului, cap-coadă și de unul singur. Fiecare clip pornea de la o idee și un brief, continua cu construirea personajelor și fixarea lor ca să rămână identice de la un cadru la altul, apoi cu generarea imaginilor și a clipurilor, și se termina în CapCut, la montaj. Rezultatul e un flux constant de reclame pentru un catalog întreg de produse, în vertical pentru story și pătrat pentru feed, fără o singură zi de filmare și fără costuri de producție."},
+  en:{t:"Doza de Sănătate",d:"Video ads for a supplements brand, built end to end with AI.",
+      s:"I was hired to produce the brand's video ads, start to finish and on my own. Every clip began with an idea and a brief, moved on to building the characters and locking them so they stayed identical from shot to shot, then generating the images and the video, and ended in CapCut at the edit. The result is a steady stream of ads across a whole product catalogue, vertical for stories and square for feed, with zero shoot days and no production budget."}},
+ {id:10,slug:"etsy-wall-art",shots:14,hasVideo:true,vert:true,cat:["video","imagery","ads"],video:true,tag:"Digital Art",year:"2025",
   role:"Design · Mockup · Montaj",tools:"Nano Banana Pro · Seedance 2.0 · CapCut",
   m:[["14","designuri","designs"],["A2","format","format"],["0","stoc","stock"]],
   ro:{t:"Etsy Digital Wall Art",d:"Magazin de artă digitală: designuri create cu AI, livrate instant ca fișier printabil.",
