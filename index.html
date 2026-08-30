@@ -199,8 +199,8 @@ h2.uline::after{content:"";position:absolute;left:0;bottom:0;height:5px;border-r
 .card-media img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
 .card:hover .card-media img{transform:scale(1.04)}
 .card-body{display:flex;flex-direction:column;gap:10px;padding:18px 12px 12px}
-.card-body h3{font-size:1.5rem}
-.card-body p{color:var(--ink-dim);font-size:.95rem}
+/* titlul proiectului sta doar in imagine, nu se mai repeta si aici */
+.card-body p{color:var(--ink-dim);font-size:1.02rem;line-height:1.45}
 .more{display:inline-flex;align-items:center;gap:8px;margin-top:6px;padding-top:14px;
   border-top:1px solid var(--line-soft);font-family:'IBM Plex Mono',monospace;font-size:.68rem;
   letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--ink);
@@ -645,15 +645,16 @@ const cover=w=>BASE+w.slug+"/cover.webp";
 /* thumbnail-ul de pe card, doua variante: thumb-dark.webp si thumb-light.webp.
    Daca fisierele nu exista, se cade automat inapoi pe cover.webp. */
 const thumb=w=>BASE+w.slug+"/thumb-"+(document.documentElement.dataset.theme==="light"?"light":"dark")+".webp";
-const video=w=>BASE+w.slug+"/video.mp4";
+/* implicit videoul mare e video.mp4. Daca vrei alt clip sus, pui videoFile:"c02.mp4" in proiect. */
+const video=w=>BASE+w.slug+"/"+(w.videoFile||"video.mp4");
 const pad=n=>String(n).padStart(2,"0");
 /* Pozele pot fi .webp sau .jpg. Site-ul incearca intai .webp;
    daca fisierul nu exista, trece automat pe .jpg. Poti amesteca. */
 const shots=w=>Array.from({length:w.shots||0},(_,i)=>BASE+w.slug+"/"+pad(i+1)+".webp");
 /* Proiectele video au clipuri in galerie: doar c01.mp4, c02.mp4 etc.
    Miniatura e chiar primul cadru al clipului, fara poza separata. */
-const clips=w=>Array.from({length:w.clips||0},(_,i)=>({
-  src:BASE+w.slug+"/c"+pad(i+1)+".mp4"}));
+const clips=w=>(w.clipList||Array.from({length:w.clips||0},(_,i)=>"c"+pad(i+1)+".mp4"))
+  .map(f=>({src:BASE+w.slug+"/"+f}));
 const fallbackJpg='onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.src.replace(/\\.webp$/,\'.jpg\')}"';
 
 /* Cifrele si testimonialele de mai jos sunt MOCK, pentru feel. Se inlocuiesc cu date reale. */
@@ -669,7 +670,7 @@ const WORK=[
       s:"The villa was finished outside but still empty inside, and the listing had to go up that same week. I worked from the architectural renders and rebuilt the house shot by shot, with the same light in all of them. Eleven shots, linked so it reads as one camera move. The interior was built over the real floor plan, so the proportions stay honest.",
       caps:["Opening frame, using the pool as a mirror for the facade.","Interior generated over the real floor plan to keep proportions honest.","Day-to-night transition built from two renders of the same angle.","Final listing frame, also used as the cover image."],
       q:"I sent it to the client on Thursday night and had viewings booked by Friday.",who:"Andrei Pop · Domus Real Estate"}},
- {id:8,slug:"don-licu-pisicu",shots:7,hasVideo:true,vert:true,cat:["video","ads","imagery","social"],video:true,tag:"Pet Care",year:"2026",
+ {id:8,slug:"don-licu-pisicu",shots:8,hasVideo:true,vert:true,cat:["video","ads","imagery","social"],video:true,tag:"Pet Care",year:"2026",
   role:"Concept · Regie · Prompt · Montaj",tools:"Seedance 2.5 · Nano Banana Pro · ElevenLabs",
   m:[["20s","durată","length"],["7","cadre","frames"],["1","zi","day"]],
   ro:{t:"Don Licu Pisicu",d:"Set de reclame pentru un brand de nisip pentru pisici.",
@@ -677,11 +678,13 @@ const WORK=[
   en:{t:"Don Licu Pisicu",d:"A set of ads for a cat litter brand.",
       s:"The client wanted the product in a real home with a real cat, but there was no budget for a shoot and no appetite for putting an animal on set. I built the cat as a character first and locked it into a reference sheet. Everything else was generated around it: same cat, same home, same light, in every frame. The ads came out in two formats, square for feed and vertical for stories, with and without copy, plus a 20 second spot with a generated voice over."}},
  {id:9,slug:"copt-cu-dragoste",clips:4,hasVideo:true,vert:true,cat:["video","ads","social"],video:true,tag:"Food",year:"2026",
+  /* sus merge clipul cu focaccia (c02), iar cel cu ingredientele (video.mp4) intra in galerie pe locul lui */
+  videoFile:"c02.mp4",clipList:["c01.mp4","video.mp4","c03.mp4","c04.mp4"],
   role:"Concept · Prompt · Montaj",tools:"Seedance 2.5 · Kling 3.0 · CapCut",
   m:[["5","clipuri","clips"],["76s","total","total"],["9:16","format","format"]],
-  ro:{t:"Copt cu Dragoste",d:"Cinci clipuri verticale pentru meniul unei pizzerii.",
+  ro:{t:"Copt cu Dragoște",d:"Cinci clipuri verticale pentru meniul unei pizzerii.",
       s:"Pizzeria voia să posteze constant, dar orice filmare însemna oprit bucătăria în mijlocul serviciului. Am făcut cinci clipuri verticale care acoperă tot meniul, de la ingrediente și focaccia până la deserturi și oferta de pizza gratis. Fiecare merge singur în feed, dar puse una după alta arată ca o campanie."},
-  en:{t:"Copt cu Dragoste",d:"Five vertical clips for a pizzeria menu.",
+  en:{t:"Copt cu Dragoște",d:"Five vertical clips for a pizzeria menu.",
       s:"They wanted to post regularly, but every shoot meant stopping the kitchen in the middle of service. I made five vertical clips covering the whole menu, from ingredients and focaccia through to desserts and the free pizza offer. Each one works on its own in the feed, but lined up they read as one campaign."}},
 {id:12,slug:"rodrag-photo",shots:10,hasVideo:true,vert:true,cat:["photo"],video:true,tag:"Fotografie",year:"2025",
   role:"Fotografie · Editare · Montaj",tools:"Sony · Lightroom · CapCut",
@@ -703,18 +706,7 @@ const WORK=[
   ro:{t:"Etsy Digital Wall Art",d:"Magazin de tablouri digitale pentru print, vândute pe Etsy.",
       s:"Am pornit un magazin de wall art pe Etsy. Fiecare design e făcut de mine și pus într-un mockup de interior, ca omul să vadă cum arată pe perete înainte să cumpere. După comandă primește un PDF la A2 și îl tipărește la ce dimensiune vrea. Fără stoc, fără curier, fără retururi."},
   en:{t:"Etsy Digital Wall Art",d:"Printable digital wall art, sold on Etsy.",
-      s:"I started a wall art shop on Etsy. Every design is mine, placed into a room mockup so buyers can see it on a wall before they pay. After the order they get an A2 PDF and print it at whatever size they want. No stock, no shipping, no returns."}},
- {id:7,slug:"kit-social-media",shots:4,cat:["social","imagery","imagery"],video:false,tag:"Social Media",year:"2026",
-  role:"Concept · Foto · AI",tools:"Nano Banana Pro · Lightroom",
-  m:[["20","postări","posts"],["10","story","story"],["1","lună","month"]],
-  ro:{t:"Kit de conținut social",d:"Pachet lunar de postări pentru un brand local.",
-      s:"Un kit complet livrat la început de lună: douăzeci de postări, zece story-uri și template-uri editabile, toate pe aceeași paletă. Clientul nu mai trebuie să se gândească ce postează, doar programează.",
-      caps:["Grila de feed, verificată înainte de livrare ca să curgă vizual.","Template de story, cu zonele de text deja pregătite.","Set de postări de produs, în lumina brandului.","Cadrele de rezervă, pentru zilele în care apare ceva neplanificat."],
-      q:"Prima lună în care nu am intrat în panică joia seara că nu am ce posta.",who:"Cristina Vlad · brand local"},
-  en:{t:"Social content kit",d:"A monthly post pack for a local brand.",
-      s:"A full kit delivered at the start of each month: twenty posts, ten stories and editable templates, all on the same palette. The client no longer has to think about what to post, just when.",
-      caps:["Feed grid, checked before delivery so it flows visually.","Story template, with text areas already set up.","Product post set, in the brand's light.","Spare frames, for the days when something unplanned comes up."],
-      q:"First month I didn't panic on a Thursday night about having nothing to post.",who:"Cristina Vlad · local brand"}}
+      s:"I started a wall art shop on Etsy. Every design is mine, placed into a room mockup so buyers can see it on a wall before they pay. After the order they get an A2 PDF and print it at whatever size they want. No stock, no shipping, no returns."}}
 ];
 const T={ro:{year:"An",role:"Rol",tools:"Tooluri",strategy:"Abordarea",gallery:"Din proiect",
   more:"Vezi proiectul",cta:"Cere ofertă",back:"← Înapoi"},
@@ -731,7 +723,7 @@ function renderGrid(f="all"){
       <span class="glow" style="background-image:url(${src})"></span>
       <div class="card-inner">
         <div class="card-media"><img src="${th}" alt="${c.t}" loading="lazy" ${fb}></div>
-        <div class="card-body"><h3>${c.t}</h3><p>${c.d}</p>
+        <div class="card-body"><p>${c.d}</p>
           <span class="more">${T[LANG].more}<svg viewBox="0 0 24 24"><path d="M5 12h12m-5-6l6 6-6 6"/></svg></span>
         </div>
       </div></div>`}).join("");
