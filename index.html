@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Unexpected.Studio · AI Creative &amp; Photography</title>
-<meta name="description" content="AI creative director and photographer based in Turda. Films, ads and images made with generative tools and a photographer's eye.">
+<meta name="description" content="AI creative director and photographer based in Cluj County, Romania. Films, ads and images made with generative tools and a photographer's eye.">
 <meta property="og:title" content="Unexpected.Studio · AI Creative &amp; Photography">
 <meta property="og:description" content="Films, ads and images made with generative tools and a photographer's eye.">
 <meta property="og:type" content="website">
@@ -271,6 +271,9 @@ h2.uline::after{content:"";position:absolute;left:0;bottom:0;height:5px;border-r
 .direct a{display:flex;justify-content:space-between;gap:16px;padding-bottom:13px;
   border-bottom:1px solid var(--line-soft);transition:.3s var(--ease)}
 .direct a:hover{border-color:var(--accent);color:var(--accent-ink);transform:translateX(4px)}
+/* randul de locatie, acelasi ritm ca linkurile dar fara hover */
+.direct .loc{display:flex;justify-content:space-between;gap:16px;padding-bottom:13px;
+  border-bottom:1px solid var(--line-soft);color:var(--ink-dim)}
 
 /* ============ FOOTER ============ */
 footer{padding-block:34px;border-top:1px solid var(--line-soft)}
@@ -532,9 +535,13 @@ blockquote footer{border:0;padding:14px 0 0}
       <h2 class="rv" data-d="1" data-ro="Cine sunt<span class='dot-y'>.</span>"
           data-en="Who I am<span class='dot-y'>.</span>">Cine sunt<span class="dot-y">.</span></h2>
       <p class="rv" data-d="2"
-         data-ro="Creez imagini și clipuri generate cu AI pentru branduri, de la spoturi de produs și reclame animate, până la conținut de social media și grafică pentru story."
-         data-en="I create AI-generated images and videos for brands, from product spots and animated ads to social media content and story graphics.">
-        Creez imagini și clipuri generate cu AI pentru branduri, de la spoturi de produs și reclame animate, până la conținut de social media și grafică pentru story.</p>
+         data-ro="Salut, sunt Alex. Am început cu aparatul foto în mână și am ajuns să lucrez tot mai mult cu imagine și video generate, fără să renunț la fotografie."
+         data-en="Hi, I&apos;m Alex. I started out with a camera in my hand and ended up working more and more with generated image and video, without giving up photography.">
+        Salut, sunt Alex. Am început cu aparatul foto în mână și am ajuns să lucrez tot mai mult cu imagine și video generate, fără să renunț la fotografie.</p>
+      <p class="rv" data-d="2"
+         data-ro="Creez imagini și clipuri pentru branduri, de la spoturi de produs și reclame animate, până la conținut de social media și grafică pentru story."
+         data-en="I make images and video for brands, from product spots and animated ads to social media content and story graphics.">
+        Creez imagini și clipuri pentru branduri, de la spoturi de produs și reclame animate, până la conținut de social media și grafică pentru story.</p>
       <p class="rv" data-d="2"
          data-ro="Duc singur tot procesul, de la prompt la livrabilul final, cu Seedance și Nano Banana pentru imagine și video, ElevenLabs pentru voce AI și CapCut pentru montaj."
          data-en="I run the full process myself, from prompt to final deliverable, using Seedance and Nano Banana for image and video generation, ElevenLabs for AI voice, and CapCut for editing.">
@@ -566,6 +573,7 @@ blockquote footer{border:0;padding:14px 0 0}
         <a href="tel:+40740645422"><span class="mono">Telefon</span><span>0740 645 422</span></a>
         <a href="https://wa.me/40740645422"><span class="mono">WhatsApp</span><span>0740 645 422</span></a>
         <a href="https://instagram.com/unexpected.raw"><span class="mono">Instagram</span><span>@unexpected.raw</span></a>
+        <div class="loc"><span class="mono" data-ro="Locație" data-en="Location">Locație</span><span data-ro="România · Jud. Cluj" data-en="Romania · Cluj County">România · Jud. Cluj</span></div>
       </div>
     </div>
     <form class="contact-card rv" data-d="2" action="https://api.web3forms.com/submit" method="POST" id="form">
@@ -599,7 +607,7 @@ blockquote footer{border:0;padding:14px 0 0}
 
 <footer>
   <div class="shell foot">
-    <span class="mono">© <span id="yr"></span> unexpected.studio · Turda, jud. Cluj</span>
+    <span class="mono">© <span id="yr"></span> unexpected.studio · <span data-ro="România · Jud. Cluj" data-en="Romania · Cluj County">România · Jud. Cluj</span></span>
     <span class="mono">@unexpected.raw</span>
   </div>
 </footer>
@@ -652,49 +660,49 @@ const WORK=[
  {id:1,slug:"tur-imobiliar-generativ",shots:28,hasVideo:true,cat:["video","ads","ads"],video:true,tag:"Real Estate",year:"2026",
   role:"Regie · Prompt · Montaj",tools:"Seedance 2.0 · Premiere",
   m:[["45s","durată","length"],["11","cadre","shots"],["4K","master","master"]],
-  ro:{t:"Tur imobiliar generativ",d:"Spot de 45s pentru o vilă de lux, fără echipă de filmare.",
-      s:"Vila era finalizată la exterior, dar goală pe interior, iar anunțul trebuia publicat în aceeași săptămână. Am pornit de la randările de arhitectură și am construit turul integral generativ: aceeași casă, aceeași oră albastră, unsprezece cadre legate ca într-un travelling continuu.",
+  ro:{t:"Tur imobiliar generativ",d:"Tur video de 45 de secunde pentru o vilă, fără nimic filmat la fața locului.",
+      s:"Vila era gata pe afară, dar goală pe dinăuntru, iar anunțul trebuia să iasă în aceeași săptămână. Am plecat de la randările de arhitectură și am refăcut casa cadru cu cadru, cu aceeași lumină în toate. Unsprezece cadre, legate cât să pară o singură mișcare de cameră. Interiorul l-am construit peste planul real, ca proporțiile să rămână corecte.",
       caps:["Cadrul de deschidere, cu piscina folosită ca oglindă pentru fațadă.","Interiorul generat peste planul real, ca proporțiile să rămână corecte.","Trecerea zi-noapte, făcută din două randări ale aceluiași unghi.","Cadrul final de listing, folosit și ca imagine de copertă în anunț."],
       q:"L-am trimis clientului joi seara și vineri aveam programate vizionări.",who:"Andrei Pop · Domus Imobiliare"},
-  en:{t:"Generative property tour",d:"A 45s spot for a luxury villa, with no film crew.",
-      s:"The villa was finished outside but empty inside, and the listing had to go live that same week. I started from the architectural renders and built the tour fully generative: same house, same blue hour, eleven shots linked like one continuous move.",
+  en:{t:"Generative property tour",d:"A 45 second tour of a villa, with nothing shot on location.",
+      s:"The villa was finished outside but still empty inside, and the listing had to go up that same week. I worked from the architectural renders and rebuilt the house shot by shot, with the same light in all of them. Eleven shots, linked so it reads as one camera move. The interior was built over the real floor plan, so the proportions stay honest.",
       caps:["Opening frame, using the pool as a mirror for the facade.","Interior generated over the real floor plan to keep proportions honest.","Day-to-night transition built from two renders of the same angle.","Final listing frame, also used as the cover image."],
       q:"I sent it to the client on Thursday night and had viewings booked by Friday.",who:"Andrei Pop · Domus Real Estate"}},
  {id:8,slug:"don-licu-pisicu",shots:7,hasVideo:true,vert:true,cat:["video","ads","imagery","social"],video:true,tag:"Pet Care",year:"2026",
   role:"Concept · Regie · Prompt · Montaj",tools:"Seedance 2.5 · Nano Banana Pro · ElevenLabs",
   m:[["20s","durată","length"],["7","cadre","frames"],["1","zi","day"]],
-  ro:{t:"Don Licu Pisicu",d:"Campanie completă pentru un brand de așternut igienic, fără o singură zi de filmare.",
-      s:"Brandul avea nevoie de o campanie care să arate produsul într-o casă reală, cu o pisică reală, dar fără buget de shooting și fără riscul de a lucra cu un animal pe platou. Am construit o pisică proprie ca personaj, am fixat-o într-un character sheet, apoi am generat toată sesiunea în jurul ei: aceeași pisică, aceeași casă scandinavă, aceeași lumină, în toate cadrele. Reclamele au ieșit în două formate, pătrat pentru feed și vertical pentru story, cu și fără text, plus un clip de 20 de secunde cu voice over generat."},
-  en:{t:"Don Licu Pisicu",d:"A full campaign for a cat litter brand, with zero shoot days.",
-      s:"The brand needed a campaign showing the product in a real home with a real cat, but had no budget for a shoot and no appetite for working with an animal on set. I built the cat as a character first, locked it in a reference sheet, then generated the whole session around it: same cat, same Scandinavian home, same light, across every frame. The ads came out in two formats, square for feed and vertical for stories, with and without copy, plus a 20 second spot with a generated voice over."}},
+  ro:{t:"Don Licu Pisicu",d:"Reclame pentru un brand de așternut pentru pisici, fără nicio zi de filmare.",
+      s:"Clientul voia produsul într-o casă adevărată, cu o pisică adevărată, dar fără buget de filmare și fără bătaia de cap de a scoate un animal pe platou. Am construit întâi pisica, ca personaj, și am fixat-o într-o fișă de referință. Apoi am generat toată sesiunea în jurul ei: aceeași pisică, aceeași casă, aceeași lumină, în fiecare cadru. Reclamele au ieșit în două formate, pătrat pentru feed și vertical pentru story, cu și fără text, plus un clip de 20 de secunde cu voice over generat."},
+  en:{t:"Don Licu Pisicu",d:"Ads for a cat litter brand, with no shoot days.",
+      s:"The client wanted the product in a real home with a real cat, but there was no budget for a shoot and no appetite for putting an animal on set. I built the cat as a character first and locked it into a reference sheet. Everything else was generated around it: same cat, same home, same light, in every frame. The ads came out in two formats, square for feed and vertical for stories, with and without copy, plus a 20 second spot with a generated voice over."}},
  {id:9,slug:"copt-cu-dragoste",clips:4,hasVideo:true,vert:true,cat:["video","ads","social"],video:true,tag:"Food",year:"2026",
   role:"Concept · Prompt · Montaj",tools:"Seedance 2.5 · Kling 3.0 · CapCut",
   m:[["5","clipuri","clips"],["76s","total","total"],["9:16","format","format"]],
-  ro:{t:"Copt cu Dragoste",d:"Serie de cinci clipuri verticale pentru o pizzerie, de la ingrediente la desert.",
-      s:"Pizzeria voia conținut constant pentru social, dar fiecare filmare însemna oprit bucătăria în mijlocul serviciului. Am construit o serie de cinci clipuri verticale care acoperă tot meniul, de la ingrediente și focaccia până la deserturi și oferta de pizza gratis, toate în același limbaj vizual. Fiecare clip stă singur în feed, dar puse cap la cap arată ca o campanie."},
-  en:{t:"Copt cu Dragoste",d:"A five clip vertical series for a pizzeria, from ingredients to dessert.",
-      s:"The pizzeria wanted a steady stream of social content, but every shoot meant stopping the kitchen in the middle of service. I built a series of five vertical clips covering the whole menu, from ingredients and focaccia to desserts and the free pizza offer, all in the same visual language. Each clip stands alone in the feed, but together they read as one campaign."}},
+  ro:{t:"Copt cu Dragoste",d:"Cinci clipuri verticale pentru o pizzerie, de la aluat la desert.",
+      s:"Pizzeria voia să posteze constant, dar orice filmare însemna oprit bucătăria în mijlocul serviciului. Am făcut cinci clipuri verticale care acoperă tot meniul, de la ingrediente și focaccia până la deserturi și oferta de pizza gratis. Fiecare merge singur în feed, dar puse una după alta arată ca o campanie."},
+  en:{t:"Copt cu Dragoste",d:"Five vertical clips for a pizzeria, from dough to dessert.",
+      s:"They wanted to post regularly, but every shoot meant stopping the kitchen in the middle of service. I made five vertical clips covering the whole menu, from ingredients and focaccia through to desserts and the free pizza offer. Each one works on its own in the feed, but lined up they read as one campaign."}},
 {id:12,slug:"rodrag-photo",shots:10,hasVideo:true,vert:true,cat:["photo"],video:true,tag:"Fotografie",year:"2025",
   role:"Fotografie · Editare · Montaj",tools:"Sony · Lightroom · CapCut",
-  m:[["10","cadre","frames"],["1","zi","day"],["0","brief","brief"]],
-  ro:{t:"RoDrag Racing",d:"Fotografie de motorsport, făcută din pasiune, nu la comandă.",
-      s:"Cele mai multe cadre sunt de la RoDrag Racing. Nu au fost făcute pentru niciun client, ci pentru că îmi place locul ăsta: mașini pregătite luni întregi, oameni care le împing la limită și lumina de pe pistă la asfințit. Fotografiez ce mă atrage în momentul ăla, fără listă de cadre și fără brief. Ultima imagine e singura la care am intervenit după, o distorsiune verticală peste un cadru propriu."},
-  en:{t:"RoDrag Racing",d:"Motorsport photography, shot for the love of it, not on assignment.",
-      s:"Most of these frames come from RoDrag Racing. They weren't made for a client, they were made because I love the place: cars built over months, people pushing them to the limit, and the light on the strip at sunset. I shoot whatever pulls me in at that moment, with no shot list and no brief. The last image is the only one I touched afterwards, a vertical distortion over one of my own frames."}},
+  m:[["9","cadre","frames"],["1","zi","day"],["0","brief","brief"]],
+  ro:{t:"RoDrag Racing",d:"Fotografie de la cursele de drag, făcută pentru mine, nu pentru un client.",
+      s:"Aproape toate cadrele sunt de la RoDrag Racing. Nu le-am făcut pentru nimeni, le-am făcut pentru că îmi place locul: mașini la care se lucrează luni întregi, oameni care le duc la limită și lumina de pe pistă spre seară. Fotografiez ce mă prinde atunci, fără listă de cadre și fără brief."},
+  en:{t:"RoDrag Racing",d:"Photos from the drag strip, shot for myself and not for a client.",
+      s:"Almost all of these are from RoDrag Racing. I didn't shoot them for anyone, I shot them because I like the place: cars people work on for months, drivers pushing them, and the light on the strip towards evening. I photograph whatever catches me at the time, no shot list, no brief."}},
  {id:11,slug:"doza-de-sanatate",clips:6,hasVideo:true,vert:true,cat:["video","ads","social"],video:true,tag:"Suplimente",year:"2025",
   role:"Concept · Brief · Personaje · Prompt · Montaj",tools:"Seedance · Kling · ElevenLabs · CapCut",
   m:[["9:16","și 1:1","and 1:1"],["1","om","person"],["0","zile filmare","shoot days"]],
-  ro:{t:"Doza de Sănătate",d:"Reclame video pentru suplimente alimentare, construite integral cu AI.",
-      s:"Am fost angajat ca să produc reclamele video ale brandului, cap-coadă și de unul singur. Fiecare clip pornea de la o idee și un brief, continua cu construirea personajelor și fixarea lor ca să rămână identice de la un cadru la altul, apoi cu generarea imaginilor și a clipurilor, și se termina în CapCut, la montaj. Rezultatul e un flux constant de reclame pentru un catalog întreg de produse, în vertical pentru story și pătrat pentru feed, fără o singură zi de filmare și fără costuri de producție."},
-  en:{t:"Doza de Sănătate",d:"Video ads for a supplements brand, built end to end with AI.",
-      s:"I was hired to produce the brand's video ads, start to finish and on my own. Every clip began with an idea and a brief, moved on to building the characters and locking them so they stayed identical from shot to shot, then generating the images and the video, and ended in CapCut at the edit. The result is a steady stream of ads across a whole product catalogue, vertical for stories and square for feed, with zero shoot days and no production budget."}},
+  ro:{t:"Doza de Sănătate",d:"Reclame video pentru un brand de suplimente, făcute de la cap la coadă.",
+      s:"Aici am fost angajat și m-am ocupat singur de reclame, de la idee până la export. Fiecare clip pornea de la un brief. Construiam personajele și le fixam ca să arate la fel de la un cadru la altul, generam imaginile și clipurile, iar montajul îl făceam în CapCut. Au ieșit reclame pentru un catalog întreg de produse."},
+  en:{t:"Doza de Sănătate",d:"Video ads for a supplements brand, handled end to end.",
+      s:"This one was a job. I ran the ads on my own, from the idea to the export. Each clip started with a brief. I built the characters and locked them so they looked the same from shot to shot, generated the images and the video, then cut it in CapCut. It ended up covering a whole product catalogue."}},
  {id:10,slug:"etsy-wall-art",shots:14,hasVideo:true,vert:true,cat:["video","imagery","ads"],video:true,tag:"Digital Art",year:"2025",
   role:"Design · Mockup · Montaj",tools:"Nano Banana Pro · Seedance 2.0 · CapCut",
   m:[["14","designuri","designs"],["A2","format","format"],["0","stoc","stock"]],
-  ro:{t:"Etsy Digital Wall Art",d:"Magazin de artă digitală: designuri create cu AI, livrate instant ca fișier printabil.",
-      s:"Am construit un magazin de wall art pe Etsy în care fiecare design era creat cu AI, pus în mockup-uri de interior ca să vadă clientul exact cum arată pe perete, iar după comandă livrat instant ca PDF la format A2, scalabil în jos la orice dimensiune. Zero stoc, zero livrare fizică, zero retur. Showreelul de mai jos animă mockup-urile și arată seriile una după alta."},
-  en:{t:"Etsy Digital Wall Art",d:"A digital art shop: AI-made designs delivered instantly as printable files.",
-      s:"I built a wall art shop on Etsy where every design was created with AI, placed into interior mockups so buyers could see exactly how it looks on a wall, and delivered instantly after purchase as an A2 PDF they could scale down to any size. No stock, no shipping, no returns. The showreel below brings the mockups to life and runs through the series one by one."}},
+  ro:{t:"Etsy Digital Wall Art",d:"Magazin de artă digitală pe Etsy, cu livrare instant.",
+      s:"Am pornit un magazin de wall art pe Etsy. Fiecare design e făcut de mine și pus într-un mockup de interior, ca omul să vadă cum arată pe perete înainte să cumpere. După comandă primește un PDF la A2 și îl tipărește la ce dimensiune vrea. Fără stoc, fără curier, fără retururi."},
+  en:{t:"Etsy Digital Wall Art",d:"A digital wall art shop on Etsy, delivered instantly.",
+      s:"I started a wall art shop on Etsy. Every design is mine, placed into a room mockup so buyers can see it on a wall before they pay. After the order they get an A2 PDF and print it at whatever size they want. No stock, no shipping, no returns."}},
  {id:7,slug:"kit-social-media",shots:4,cat:["social","imagery","imagery"],video:false,tag:"Social Media",year:"2026",
   role:"Concept · Foto · AI",tools:"Nano Banana Pro · Lightroom",
   m:[["20","postări","posts"],["10","story","story"],["1","lună","month"]],
