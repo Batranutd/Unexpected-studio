@@ -144,6 +144,8 @@ section{padding-block:var(--pad);position:relative;max-width:100%;overflow-x:cli
 .reel-frame img{width:100%;height:100%;object-fit:cover}
 .reel-frame::after{content:"";position:absolute;inset:0;
   background:linear-gradient(to top,rgba(11,11,12,.6),transparent 55%)}
+/* cat timp nu exista showreel, placa e curata: fara gradient, fara buton */
+.reel-frame.reel-soon::after{display:none}
 .reel .glow{position:absolute;inset:28px;border-radius:26px;z-index:0;background-size:cover;
   background-position:center;filter:blur(46px) saturate(1.5);opacity:.4}
 .reel-label{position:absolute;left:26px;bottom:24px;z-index:2;color:#fff;display:flex;
@@ -490,14 +492,10 @@ blockquote footer{border:0;padding:14px 0 0}
     </div>
 
     <div class="reel rv" data-d="2">
-      <div class="glow" style="background-image:url(assets/img/showreel-poster.jpg)"></div>
+      <div class="glow" id="reel-glow"></div>
       <div class="reel-inner">
-        <div class="reel-frame">
-          <img src="assets/img/showreel-poster.jpg" alt="Showreel" fetchpriority="high">
-          <div class="reel-label">
-            <span class="reel-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-            <span class="mono">Showreel 2026 · 90s</span>
-          </div>
+        <div class="reel-frame reel-soon">
+          <img id="reel-img" src="assets/img/showreel-poster-light.jpg" alt="Showreel" fetchpriority="high">
         </div>
       </div>
     </div>
@@ -659,6 +657,14 @@ const fallbackJpg='onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.s
 
 /* Cifrele si testimonialele de mai jos sunt MOCK, pentru feel. Se inlocuiesc cu date reale. */
 const WORK=[
+ {id:13,slug:"nirus-retail",shots:12,hasVideo:false,vert:true,cat:["imagery","social","ads"],video:false,tag:"Site & Branding",year:"2026",
+  role:{ro:"Site, identitate vizuala si continut",en:"Website, visual identity and content"},
+  tools:"Figma \u00b7 Python \u00b7 Magnific",
+  m:[["12","Piese livrate","Pieces delivered"],["9","Postari","Social posts"],["3","Materiale print","Print pieces"]],
+  ro:{t:"Nirus Retail",d:"Magazin online de produse returnate Amazon, de la site la continut.",
+      s:"Un prieten cumpara paleti cu marfa returnata de pe Amazon si o revinde. I-am facut site-ul de la zero, logo-ul si pozele de produs, apoi am construit sistemul vizual care tine tot laolalta. Provocarea reala nu a fost designul, ci contradictia: vinzi marfa care nu e mereu noua, deci nu poti ascunde nimic. Am transformat asta in unghi. Fiecare postare arata poza de catalog langa poza reala din hala, cu starea produsului scrisa pe ea. Acelasi limbaj merge mai departe pe flyerul din colet si pe vouchere."},
+  en:{t:"Nirus Retail",d:"An online shop for Amazon returns, from the website to the content.",
+      s:"A friend buys pallets of Amazon returns and resells them. I built his website from scratch, the logo and the product photography, then the visual system that holds it together. The real challenge was not the design but the contradiction: you are selling goods that are not always new, so you cannot hide anything. I turned that into the angle. Every post shows the catalogue photo next to the real photo from the warehouse, with the product condition stated on it. The same language carries over to the flyer in the parcel and to the vouchers."}},
  {id:1,slug:"tur-imobiliar-generativ",shots:28,hasVideo:true,cat:["video","ads","ads"],video:true,tag:"Real Estate",year:"2026",
   role:"Regie · Prompt · Montaj",tools:"Seedance 2.0 · Premiere",
   m:[["45s","durată","length"],["11","cadre","shots"],["4K","master","master"]],
@@ -908,6 +914,17 @@ function setLang(l){LANG=l;document.documentElement.lang=l;
 document.getElementById("btn-ro").onclick=()=>setLang("ro");
 document.getElementById("btn-en").onclick=()=>setLang("en");
 
+/* placa de showreel urmeaza tema, ca si thumbnail-urile */
+function syncReel(){
+  const dark=document.documentElement.dataset.theme==="dark";
+  const src="assets/img/showreel-poster-"+(dark?"dark":"light")+".jpg";
+  const img=document.getElementById("reel-img");
+  const glow=document.getElementById("reel-glow");
+  if(img) img.src=src;
+  if(glow) glow.style.backgroundImage="url("+src+")";
+}
+syncReel();
+
 /* theme switch (fara storage) */
 const themeBtn=document.getElementById("theme");
 themeBtn.onclick=()=>{
@@ -916,6 +933,7 @@ themeBtn.onclick=()=>{
   themeBtn.setAttribute("aria-checked",String(!dark));
   const a=document.querySelector('.filters button[aria-pressed="true"]');
   renderGrid(a?a.dataset.f:"all");
+  syncReel();
 };
 
 /* linia galbena de sub titluri se strange intr-un punct pe masura ce derulezi */
