@@ -644,6 +644,9 @@ blockquote footer{border:0;padding:14px 0 0}
    ============================================================ */
 const BASE="assets/projects/";
 const cover=w=>BASE+w.slug+"/cover.webp";
+/* thumbnail-ul de pe card, doua variante: thumb-dark.webp si thumb-light.webp.
+   Daca fisierele nu exista, se cade automat inapoi pe cover.webp. */
+const thumb=w=>BASE+w.slug+"/thumb-"+(document.documentElement.dataset.theme==="light"?"light":"dark")+".webp";
 const video=w=>BASE+w.slug+"/video.mp4";
 const pad=n=>String(n).padStart(2,"0");
 /* Pozele pot fi .webp sau .jpg. Site-ul incearca intai .webp;
@@ -725,11 +728,12 @@ const grid=document.getElementById("grid");
 const playSvg='<span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
 function renderGrid(f="all"){
   grid.innerHTML=WORK.filter(w=>f==="all"||w.cat.includes(f)).map((w,i)=>{
-    const c=w[LANG],src=cover(w);
+    const c=w[LANG],src=cover(w),th=thumb(w);
+    const fb=`onerror="if(!this.dataset.f){this.dataset.f=1;this.src='${src}'}"`;
     return `<div class="card rv" role="button" tabindex="0" data-d="${i%4}" data-id="${w.id}">
       <span class="glow" style="background-image:url(${src})"></span>
       <div class="card-inner">
-        <div class="card-media"><img src="${src}" alt="${c.t}" loading="lazy" ${fallbackJpg}>
+        <div class="card-media"><img src="${th}" alt="${c.t}" loading="lazy" ${fb}>
           ${w.video?playSvg:""}</div>
         <div class="card-body"><h3>${c.t}</h3><p>${c.d}</p>
           <span class="more">${T[LANG].more}<svg viewBox="0 0 24 24"><path d="M5 12h12m-5-6l6 6-6 6"/></svg></span>
@@ -922,6 +926,8 @@ themeBtn.onclick=()=>{
   const r=document.documentElement,dark=r.dataset.theme==="dark";
   r.dataset.theme=dark?"light":"dark";
   themeBtn.setAttribute("aria-checked",String(!dark));
+  const a=document.querySelector('.filters button[aria-pressed="true"]');
+  renderGrid(a?a.dataset.f:"all");
 };
 
 /* linia galbena de sub titluri se strange intr-un punct pe masura ce derulezi */
