@@ -317,6 +317,9 @@ footer{padding-block:34px;border-top:1px solid var(--line-soft)}
 .modal-hero{border-radius:24px;margin-bottom:34px;box-shadow:var(--shadow);
   border:1px solid var(--line-soft);background:var(--paper);padding:10px}
 .modal-hero img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px}
+/* proiectele cu poster vertical se vad intregi, nu taiate la 16:9 */
+.modal-hero.vert img{aspect-ratio:auto;height:auto;object-fit:contain;max-height:78vh;
+  display:block;margin:0 auto;width:auto;max-width:100%}
 .modal-in h2{font-family:'Archivo',sans-serif;font-weight:900;font-stretch:112%;letter-spacing:-.02em;font-size:clamp(1.8rem,4.2vw,3rem);margin:0 0 22px}
 .modal-in p{color:var(--ink-mid);max-width:70ch;font-weight:400}
 .modal-in .lead{font-size:1.1rem;color:var(--ink);font-weight:400}
@@ -657,14 +660,6 @@ const fallbackJpg='onerror="if(!this.dataset.f){this.dataset.f=1;this.src=this.s
 
 /* Cifrele si testimonialele de mai jos sunt MOCK, pentru feel. Se inlocuiesc cu date reale. */
 const WORK=[
- {id:13,slug:"nirus-retail",shots:12,hasVideo:false,vert:true,cat:["imagery","social","ads"],video:false,tag:"Site & Branding",year:"2026",
-  role:{ro:"Site, identitate vizuala si continut",en:"Website, visual identity and content"},
-  tools:"Figma \u00b7 Python \u00b7 Magnific",
-  m:[["12","Piese livrate","Pieces delivered"],["9","Postari","Social posts"],["3","Materiale print","Print pieces"]],
-  ro:{t:"Nirus Retail",d:"Magazin online de produse returnate Amazon, de la site la continut.",
-      s:"Un prieten cumpara paleti cu marfa returnata de pe Amazon si o revinde. I-am facut site-ul de la zero, logo-ul si pozele de produs, apoi am construit sistemul vizual care tine tot laolalta. Provocarea reala nu a fost designul, ci contradictia: vinzi marfa care nu e mereu noua, deci nu poti ascunde nimic. Am transformat asta in unghi. Fiecare postare arata poza de catalog langa poza reala din hala, cu starea produsului scrisa pe ea. Acelasi limbaj merge mai departe pe flyerul din colet si pe vouchere."},
-  en:{t:"Nirus Retail",d:"An online shop for Amazon returns, from the website to the content.",
-      s:"A friend buys pallets of Amazon returns and resells them. I built his website from scratch, the logo and the product photography, then the visual system that holds it together. The real challenge was not the design but the contradiction: you are selling goods that are not always new, so you cannot hide anything. I turned that into the angle. Every post shows the catalogue photo next to the real photo from the warehouse, with the product condition stated on it. The same language carries over to the flyer in the parcel and to the vouchers."}},
  {id:1,slug:"tur-imobiliar-generativ",shots:28,hasVideo:true,cat:["video","ads","ads"],video:true,tag:"Real Estate",year:"2026",
   role:"Regie · Prompt · Montaj",tools:"Seedance 2.0 · Premiere",
   m:[["45s","durată","length"],["11","cadre","shots"],["4K","master","master"]],
@@ -712,7 +707,15 @@ const WORK=[
   ro:{t:"Etsy Digital Wall Art",d:"Magazin de tablouri digitale pentru print, vândute pe Etsy.",
       s:"Am pornit un magazin de wall art pe Etsy. Fiecare design e făcut de mine și pus într-un mockup de interior, ca omul să vadă cum arată pe perete înainte să cumpere. După comandă primește un PDF la A2 și îl tipărește la ce dimensiune vrea. Fără stoc, fără curier, fără retururi."},
   en:{t:"Etsy Digital Wall Art",d:"Printable digital wall art, sold on Etsy.",
-      s:"I started a wall art shop on Etsy. Every design is mine, placed into a room mockup so buyers can see it on a wall before they pay. After the order they get an A2 PDF and print it at whatever size they want. No stock, no shipping, no returns."}}
+      s:"I started a wall art shop on Etsy. Every design is mine, placed into a room mockup so buyers can see it on a wall before they pay. After the order they get an A2 PDF and print it at whatever size they want. No stock, no shipping, no returns."}},
+ {id:13,slug:"nirus-retail",shots:12,hasVideo:false,vert:true,cat:["imagery","social","ads"],video:false,tag:"Site & Branding",year:"2026",
+  role:{ro:"Site \u00b7 Logo \u00b7 Foto produs \u00b7 Postari",en:"Website \u00b7 Logo \u00b7 Product photos \u00b7 Social"},
+  tools:"Claude \u00b7 Claude Code \u00b7 Magnific",
+  m:[["12","Piese livrate","Pieces delivered"],["9","Postari","Social posts"],["3","Materiale print","Print pieces"]],
+  ro:{t:"Nirus-Retail",d:"Magazin online de produse returnate Amazon, de la site la continut.",
+      s:"Un prieten cumpara paleti cu marfa returnata de pe Amazon si o revinde. I-am construit site-ul, logo-ul, pozele de produs si sistemul vizual din jurul lor. Marfa nu e mereu noua, deci nu ai ce ascunde. Am facut din asta unghiul: fiecare postare pune poza de catalog langa poza reala din hala, cu starea produsului scrisa pe ea. Acelasi limbaj continua pe flyerul si voucherele din colet."},
+  en:{t:"Nirus-Retail",d:"An online shop for Amazon returns, from the website to the content.",
+      s:"A friend buys pallets of Amazon returns and resells them. I built his website, his logo, the product photography and the visual system around them. The stock is not always new, so there is nothing to hide. I made that the angle: every post puts the catalogue photo next to the real one from the warehouse, with the product condition stated on it. The same language carries on to the flyer and vouchers inside the parcel."}}
 ];
 const T={ro:{year:"An",role:"Rol",tools:"Tooluri",strategy:"Abordarea",gallery:"Din proiect",
   more:"Vezi proiectul",cta:"Cere ofertă",back:"← Înapoi"},
@@ -749,11 +752,11 @@ grid.addEventListener("click",e=>{
        <video id="mvv" playsinline preload="metadata" ${w.vert?"":`poster="${src}"`} src="${video(w)}#t=0.5" onloadedmetadata="if(this.videoHeight>this.videoWidth){this.parentNode.classList.add('vert');this.removeAttribute('poster')}"></video>
        <button class="playbtn" id="mvbtn" aria-label="Play">
          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-     </div>`:`<div class="modal-hero"><img src="${src}" alt="${c.t}" ${fallbackJpg}></div>`}
+     </div>`:`<div class="modal-hero${w.vert?" vert":""}"><img src="${src}" alt="${c.t}" ${fallbackJpg}></div>`}
    <p class="lead">${c.s}</p>
    <div class="spec modal-spec">
      <span>${T[LANG].year} <b>${w.year}</b></span>
-     <span>${T[LANG].role} <b>${w.role}</b></span>
+     <span>${T[LANG].role} <b>${typeof w.role==="string"?w.role:w.role[LANG]}</b></span>
      <span>${T[LANG].tools} <b>${w.tools}</b></span>
    </div>
    <div class="metrics">${w.m.map(m=>`<div class="metric"><b>${m[0]}</b><span class="mono">${LANG==="ro"?m[1]:m[2]}</span></div>`).join("")}</div>
