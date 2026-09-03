@@ -67,11 +67,7 @@ section{padding-block:var(--pad);position:relative;max-width:100%;overflow-x:cli
   background:var(--glass);border:1px solid var(--line-soft);box-shadow:var(--shadow-soft);
   backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%)}
 .brand{font-family:'Milker','Archivo',sans-serif;font-size:1.22rem;text-transform:uppercase;
-  letter-spacing:.03em;display:flex;align-items:center;gap:6px;white-space:nowrap;line-height:1;
-  text-decoration:none;color:var(--ink)}
-/* marca UNX, urmata de o bara subtire si de numele complet */
-.brand-mark{height:54px;width:auto;display:block;flex:none;margin:-6px 0}
-.brand-rule{width:1px;height:26px;background:var(--line);flex:none;margin:0 14px 0 12px}
+  letter-spacing:.03em;display:flex;align-items:center;gap:6px;white-space:nowrap;line-height:1}
 .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);
   box-shadow:0 0 12px var(--accent-glow);flex:none;display:inline-block}
 .nav-tools{display:contents}
@@ -435,8 +431,6 @@ blockquote footer{border:0;padding:14px 0 0}
 /* ============ RESPONSIVE ============ */
 @media(max-width:900px){
   .brand{font-size:1rem}
-  .brand-mark{height:44px}
-  .brand-rule{margin:0 10px 0 8px;height:22px}
   .burger{display:grid}
   .nav-tools{display:none;position:absolute;top:calc(100% + 12px);left:0;right:0;z-index:2;
     flex-direction:column;align-items:stretch;gap:14px;padding:20px;border-radius:24px;
@@ -469,9 +463,7 @@ blockquote footer{border:0;padding:14px 0 0}
 
 <nav class="nav">
   <div class="nav-in">
-    <a class="brand" href="#top" aria-label="UNX Studio">
-      <img class="brand-mark" id="brand-mark" src="assets/img/unx-logo-light.png" alt="UNX">
-      <span class="brand-rule"></span>UNEXPECTED<span class="dot"></span>STUDIO</a>
+    <a class="brand" href="#top">UNEXPECTED<span class="dot"></span>STUDIO</a>
     <button class="burger" id="burger" aria-expanded="false" aria-label="Meniu"><span></span></button>
     <div class="nav-tools" id="navtools">
     <div class="nav-links">
@@ -588,7 +580,7 @@ blockquote footer{border:0;padding:14px 0 0}
     <form class="contact-card rv" data-d="2" action="https://api.web3forms.com/submit" method="POST" id="form">
       <!-- Inlocuieste valoarea de mai jos cu Access Key-ul primit pe email de la web3forms.com.
            Pana atunci butonul deschide clientul de email in loc sa trimita formularul. -->
-      <input type="hidden" name="access_key" value="INLOCUIESTE-CU-ACCESS-KEY">
+      <input type="hidden" name="access_key" value="e084398c-4973-4346-9962-44e75f0468cb">
       <input type="hidden" name="subject" value="Mesaj nou de pe unexpected.studio">
       <input type="hidden" name="from_name" value="unexpected.studio">
       <input type="hidden" name="replyto" value="email">
@@ -931,13 +923,6 @@ document.getElementById("btn-ro").onclick=()=>setLang("ro");
 document.getElementById("btn-en").onclick=()=>setLang("en");
 
 /* placa de showreel urmeaza tema, ca si thumbnail-urile */
-function syncMark(){
-  const dark=document.documentElement.dataset.theme==="dark";
-  const m=document.getElementById("brand-mark");
-  if(m) m.src="assets/img/unx-logo-"+(dark?"dark":"light")+".png";
-}
-syncMark();
-
 function syncReel(){
   const dark=document.documentElement.dataset.theme==="dark";
   const src="assets/img/showreel-poster-"+(dark?"dark":"light")+".jpg";
@@ -957,7 +942,6 @@ themeBtn.onclick=()=>{
   const a=document.querySelector('.filters button[aria-pressed="true"]');
   renderGrid(a?a.dataset.f:"all");
   syncReel();
-  syncMark();
 };
 
 /* linia galbena de sub titluri se strange intr-un punct pe masura ce derulezi */
