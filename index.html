@@ -63,7 +63,7 @@
   .cert-title{font-size:.98rem}
 }
 /* pe ecrane tactile: derulare libera cu degetul, miscarea o duce un script */
-.marquee.swipe{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+.marquee.swipe{overflow-x:auto;scroll-behavior:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
   overscroll-behavior-x:contain}
 .marquee.swipe::-webkit-scrollbar{display:none}
 .marquee.swipe .marquee-track{animation:none}
@@ -1054,12 +1054,15 @@ const CERT_LOGOS = {
     <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/>
     <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
   </svg>`,
-  skvot:`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="30" cy="34" r="21" fill="none" stroke="currentColor" stroke-width="4.2"/>
-    <path d="M12 52 L54 10" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round"/>
-    <path d="M38 10 H54 V26" fill="none" stroke="currentColor" stroke-width="4.2"
-          stroke-linecap="round" stroke-linejoin="round"/>
+  skvot:`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+    fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter">
+    <circle cx="30" cy="32" r="19.4"/>
+    <path d="M10.6 32 H49.4"/>
+    <path d="M10.6 32 L56 8.4"/>
+    <path d="M49.4 32 L4 55.6"/>
+    <path d="M42.8 4.2 L56.4 8 L52.6 21.6"/>
   </svg>`,
+
   hubspot:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path fill="#FF7A59" d="M18.164 7.93V5.084a2.198 2.198 0 001.267-1.978v-.067A2.2 2.2 0 0017.238.845h-.067a2.2 2.2 0 00-2.193 2.193v.067a2.196 2.196 0 001.252 1.973l.013.006v2.852a6.22 6.22 0 00-2.969 1.31l.012-.01-7.828-6.095A2.497 2.497 0 104.3 4.656l-.012.006 7.697 5.991a6.176 6.176 0 00-1.038 3.446c0 1.343.425 2.588 1.147 3.607l-.013-.02-2.342 2.343a1.968 1.968 0 00-.58-.095h-.002a2.033 2.033 0 102.033 2.033 1.978 1.978 0 00-.1-.595l.005.014 2.317-2.317a6.247 6.247 0 104.782-11.134l-.036-.005zm-.964 9.378a3.206 3.206 0 113.215-3.207v.002a3.206 3.206 0 01-3.207 3.207z"/>
   </svg>`
@@ -1090,20 +1093,37 @@ const CERT_LOGOS = {
   const latimeJumatate=track.scrollWidth/2;
   track.style.animationDuration=(latimeJumatate/58)+"s";
 
-  // pe ecrane tactile trec pe derulare nativa, ca sa poata da swipe oricand
-  const tactil=window.matchMedia("(hover:none) and (pointer:coarse)").matches;
+  // pe ecrane tactile: derulare nativa, ca sa poti da swipe oricand,
+  // dar banda continua sa se miste singura ca pe desktop
+  const tactil=window.matchMedia("(hover:none), (pointer:coarse)").matches;
   const lent=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
   if(!tactil||lent) return;
 
   marquee.classList.add("swipe");
-  let pauza=0, ultim=performance.now();
-  marquee.addEventListener("touchstart",()=>{pauza=Infinity},{passive:true});
-  marquee.addEventListener("touchend",()=>{pauza=performance.now()+1400},{passive:true});
+  marquee.scrollLeft=0;
+  let pozitie=0;                 // pozitia o tin ca numar cu zecimale,
+  let pauza=0;                   // altfel pasii sub un pixel se pierd la rotunjire
+  let ultim=performance.now();
+  const opreste=()=>{pauza=Infinity};
+  const reia=()=>{pozitie=marquee.scrollLeft;pauza=performance.now()+1200};
+  marquee.addEventListener("touchstart",opreste,{passive:true});
+  marquee.addEventListener("touchend",reia,{passive:true});
+  marquee.addEventListener("touchcancel",reia,{passive:true});
+  // daca degetul a aruncat banda cu inertie, preiau pozitia reala
+  // in loc sa o trag inapoi de unde eram noi
+  marquee.addEventListener("scroll",()=>{
+    if(Math.abs(marquee.scrollLeft-pozitie)>2){
+      pozitie=marquee.scrollLeft;
+      if(pauza!==Infinity) pauza=performance.now()+900;
+    }
+  },{passive:true});
+
   function pas(t){
     const dt=Math.min(48,t-ultim); ultim=t;
     if(t>pauza){
-      marquee.scrollLeft+=dt*0.055;
-      if(marquee.scrollLeft>=latimeJumatate) marquee.scrollLeft-=latimeJumatate;
+      pozitie+=dt*0.058;
+      if(pozitie>=latimeJumatate) pozitie-=latimeJumatate;
+      marquee.scrollLeft=pozitie;
     }
     requestAnimationFrame(pas);
   }
