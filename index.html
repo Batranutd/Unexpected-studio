@@ -23,8 +23,8 @@
 .certs .head .mono{max-width:none;width:100%;margin:0 auto;text-align:center;
   color:var(--ink-dim);letter-spacing:.22em;font-size:.72rem}
 .marquee{position:relative;width:100%;overflow-x:hidden;overflow-y:visible;padding:16px 0;
-  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0,#000 8%,#000 92%,transparent 100%)}
+  --fade:linear-gradient(to right,transparent 0,#000 3.5%,#000 96.5%,transparent 100%);
+  -webkit-mask-image:var(--fade);mask-image:var(--fade)}
 .marquee-track{display:flex;gap:22px;width:max-content;animation:certscroll 38s linear infinite}
 .marquee:hover .marquee-track,.marquee:focus-within .marquee-track{animation-play-state:paused}
 @keyframes certscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -58,6 +58,17 @@
 .cert-go{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;
   text-transform:uppercase;color:var(--accent-ink);display:flex;align-items:center;gap:7px}
 .cert-go::after{content:"\2192"}
+/* pe tema deschisa cardurile raman inchise: logourile color ies mai bine pe fundal inchis */
+[data-theme="light"] .cert{background:#141417;border-color:rgba(255,255,255,.14);color:#F4F4F2}
+[data-theme="light"] .cert:link,[data-theme="light"] .cert:visited,
+[data-theme="light"] .cert:hover,[data-theme="light"] .cert:active{color:#F4F4F2}
+[data-theme="light"] .cert .corner::after{
+  background:linear-gradient(315deg,transparent 0%,transparent 32%,#141417 78%)}
+[data-theme="light"] .cert-issuer{color:#F4F4F2}
+[data-theme="light"] .cert-issuer .soft{color:#A8A8AE}
+[data-theme="light"] .cert[data-brand="skvot"] .mark,
+[data-theme="light"] .cert[data-brand="skvot"] .mini{color:#F4F4F2}
+[data-theme="light"] .cert:hover{box-shadow:0 18px 38px -20px rgba(11,11,12,.45)}
 @media (max-width:640px){
   .cert{min-width:238px;height:162px;padding:20px 22px}
   .cert-title{font-size:.98rem}
