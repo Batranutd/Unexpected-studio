@@ -610,6 +610,7 @@ blockquote footer{border:0;padding:14px 0 0}
       <button data-f="photo" aria-pressed="false" data-ro="Foto" data-en="Photography">Foto</button>
       <button data-f="social" aria-pressed="false">Social Media</button>
       <button data-f="branding" aria-pressed="false">Branding</button>
+      <button data-f="web" aria-pressed="false">Web</button>
     </div>
     <div class="grid" id="grid"></div>
   </div>
@@ -889,12 +890,39 @@ const WORK=[
   ro:{t:"Miere Kepes",d:"Concept de identitate vizuală pentru o stupină de familie din Turda.",
       s:"Miere Kepes e o afacere de familie din Turda, ajunsă la a treia generație de apicultori. Proiectul e un concept pe care l-am făcut din proprie inițiativă, ca propunere de rebranding. Am vrut să văd cum ar arăta povestea lor spusă de la logo până la borcan, fără să inventez nimic, doar punând în valoare ce au construit deja."},
   en:{t:"Miere Kepes",d:"A visual identity concept for a family apiary in Turda.",
-      s:"Miere Kepes is a family business from Turda, now on its third generation of beekeepers. This is a concept I made on my own initiative, as a rebranding proposal. I wanted to see how their story would look told from the logo all the way to the jar, without inventing anything, just bringing out what they have already built."}}
+      s:"Miere Kepes is a family business from Turda, now on its third generation of beekeepers. This is a concept I made on my own initiative, as a rebranding proposal. I wanted to see how their story would look told from the logo all the way to the jar, without inventing anything, just bringing out what they have already built."}},
+ /* Concept de site: video = derularea site-ului (orizontal), live = demo-ul din demo/<nume>/ */
+ {id:15,slug:"somartin-chocolate",shots:17,hasVideo:true,vert:false,cat:["web","social"],video:true,tag:"Website",year:"2026",
+  role:{ro:"Concept · Design · Site · Instagram",en:"Concept · Design · Website · Instagram"},
+  tools:"Claude · Claude Code",
+  m:[["7","secțiuni","sections"],["12","postări de Instagram","Instagram posts"],["2","limbi, RO și EN","languages, RO and EN"]],
+  live:"demo/somartin/",
+  chapters:[
+   {shots:[1,2,3],
+    ro:{h:"Povestea vine prima",p:"Prima pagină e un sat pictat, cu biserica fortificată, munții și șura. Apeși pe căsuțele roșii și afli povestea fiecărui loc. Mai jos, povestea brandului e o tabletă de ciocolată: rupi câte un pătrățel și afli ce e în spatele lui."},
+    en:{h:"The story comes first",p:"The home page is a painted village, with the fortified church, the mountains and the barn. Tap the little red houses and you get the story of each place. Further down, the brand story is a chocolate bar: break off a square and find out what is behind it."}},
+   {shots:[4,5,6,7],
+    ro:{h:"Un magazin în care te joci",p:"Fiecare tabletă e desenată direct în cod, cu eticheta în formă de căsuță. Dacă nu știi ce să alegi, trei întrebări îți recomandă una. Cutia cadou o faci singur: alegi tabletele, culoarea panglicii și ce scrie pe eticheta de lemn."},
+    en:{h:"A shop you can play with",p:"Every bar is drawn straight in code, with the little house shaped label. If you can't decide, three questions pick one for you. You build the gift box yourself: choose the bars, the ribbon colour and what goes on the wooden tag."}},
+   {shots:[8,9,10],
+    ro:{h:"Șura și satul",p:"Șura Culinară are rezervările ei: alegi experiența, ziua și câți sunteți. Satul are secțiunea lui, cu locurile din jur, iar la final sunt articolele scrise despre ei și locurile de unde poți lua ciocolata."},
+    en:{h:"The barn and the village",p:"The Culinary Barn gets its own booking: pick the experience, the day and how many of you are coming. The village has a section of its own with the places nearby, and at the end there are the articles written about them and the places where you can buy the chocolate."}},
+   {shots:[11,12,13,14],
+    ro:{h:"Pe telefon",p:"Pe telefon totul merge la fel. Satul de pe prima pagină se trage cu degetul, iar cutia cadou se face la fel de ușor ca pe desktop."},
+    en:{h:"On the phone",p:"Everything works the same on a phone. You drag the village on the home page with your finger, and the gift box is just as easy to build as on desktop."}},
+   {shots:[15,16,17],
+    ro:{h:"Și Instagramul",p:"Pe lângă site am făcut și un feed pentru noiembrie și decembrie: 12 postări, bio nou și repere, cu aceleași culori și aceeași căsuță roșie ca pe site."},
+    en:{h:"And Instagram",p:"Alongside the site I made a feed for November and December: 12 posts, a new bio and highlights, with the same colours and the same little red house as the website."}}
+  ],
+  ro:{t:"Șomartin Chocolate",d:"Concept de site și feed de Instagram pentru o ciocolaterie dintr-un sat săsesc.",
+      s:"Șomartin Chocolate face ciocolată de mână într-o șură săsească de lângă Sibiu, iar alături are Șura Culinară, unde primește oaspeți la masă. Am făcut acest concept din proprie inițiativă. Am vrut să văd cum ar arăta povestea lor spusă online, de la prima pagină a site-ului până la feed."},
+  en:{t:"Șomartin Chocolate",d:"A website and Instagram feed concept for a chocolate maker in a Saxon village.",
+      s:"Șomartin Chocolate makes chocolate by hand in a Saxon barn near Sibiu, and next door runs the Culinary Barn, where guests come to eat. I made this concept on my own initiative. I wanted to see how their story would look told online, from the first page of the website all the way to the feed."}}
 ];
 const T={ro:{year:"An",role:"Rol",tools:"Tooluri",strategy:"Abordarea",gallery:"Din proiect",
-  more:"Vezi proiectul",cta:"Cere ofertă",back:"← Înapoi",doc:"Vezi brand book-ul complet (PDF)"},
+  more:"Vezi proiectul",cta:"Cere ofertă",back:"← Înapoi",doc:"Vezi brand book-ul complet (PDF)",live:"Vezi site-ul live"},
  en:{year:"Year",role:"Role",tools:"Tools",strategy:"The approach",gallery:"From the project",
-  more:"View more",cta:"Request a quote",back:"← Back",doc:"View the full brand book (PDF)"}};
+  more:"View more",cta:"Request a quote",back:"← Back",doc:"View the full brand book (PDF)",live:"Visit the live site"}};
 let LANG="en";
 
 const grid=document.getElementById("grid");
@@ -939,6 +967,7 @@ grid.addEventListener("click",e=>{
        <h3>${ch[LANG].h}</h3><p>${ch[LANG].p}</p>
        <div class="gallery" id="gal-${i}"></div></section>`).join(""):`<div class="gallery" id="gal"></div>`}
    ${w.doc?`<div class="doc-row"><a class="btn btn-ghost" href="${w.doc}" target="_blank" rel="noopener">${t.doc}</a></div>`:""}
+   ${w.live?`<div class="doc-row"><a class="btn btn-ghost" href="${w.live}" target="_blank" rel="noopener">${t.live} ↗</a></div>`:""}
    <div class="hero-row modal-actions"><a class="btn btn-solid" href="#contact" data-close>${t.cta}</a>
      <button class="btn btn-ghost" data-close>${t.back}</button></div>`;
   modal.classList.add("open");document.body.style.overflow="hidden";
