@@ -411,6 +411,14 @@ footer{padding-block:34px;border-top:1px solid var(--line-soft)}
 .gallery img:hover{transform:scale(1.01);box-shadow:var(--shadow)}
 .modal-actions{display:flex;gap:12px;flex-wrap:nowrap;margin-top:8px;align-items:stretch}
 .modal-actions .btn{min-height:52px;justify-content:center;line-height:1;flex:1;white-space:nowrap}
+/* studiu de caz pe capitole (proiectele de branding) */
+.chapter{margin-top:56px;padding-top:26px;border-top:1px solid var(--line-soft)}
+.chapter .ch-k{display:block;margin-bottom:12px}
+.chapter h3{font-family:'Archivo',sans-serif;font-weight:900;font-stretch:112%;letter-spacing:-.01em;
+  font-size:clamp(1.35rem,2.8vw,2rem);line-height:1.1;margin:0 0 12px}
+.chapter .gallery{margin:26px 0 0}
+.doc-row{margin:44px 0 18px}
+.doc-row .btn{width:100%;min-height:52px;justify-content:center;line-height:1.2;text-align:center}
 
 blockquote{margin:30px 0;padding:24px 26px;border-left:3px solid var(--accent);
   background:var(--paper-2);border-radius:0 18px 18px 0}
@@ -601,6 +609,7 @@ blockquote footer{border:0;padding:14px 0 0}
       <button data-f="imagery" aria-pressed="false">AI Foto</button>
       <button data-f="photo" aria-pressed="false" data-ro="Foto" data-en="Photography">Foto</button>
       <button data-f="social" aria-pressed="false">Social Media</button>
+      <button data-f="branding" aria-pressed="false">Branding</button>
     </div>
     <div class="grid" id="grid"></div>
   </div>
@@ -848,19 +857,44 @@ const WORK=[
       s:"Am pornit un magazin de wall art pe Etsy. Fiecare design e făcut de mine și pus într-un mockup de interior, ca omul să vadă cum arată pe perete înainte să cumpere. După comandă primește un PDF la A2 și îl tipărește la ce dimensiune vrea. Fără stoc, fără curier, fără retururi."},
   en:{t:"Etsy Digital Wall Art",d:"Printable digital wall art, sold on Etsy.",
       s:"I started a wall art shop on Etsy. Every design is mine, placed into a room mockup so buyers can see it on a wall before they pay. After the order they get an A2 PDF and print it at whatever size they want. No stock, no shipping, no returns."}},
- {id:13,slug:"nirus-retail",shots:12,hasVideo:false,vert:true,cat:["imagery","social","ads"],video:false,tag:"Site & Branding",year:"2026",
+ {id:13,slug:"nirus-retail",shots:12,hasVideo:false,vert:true,cat:["imagery","social","ads","branding"],video:false,tag:"Site & Branding",year:"2026",
   role:{ro:"Site \u00b7 Logo \u00b7 Foto produs \u00b7 Postari",en:"Website \u00b7 Logo \u00b7 Product photos \u00b7 Social"},
   tools:"Claude \u00b7 Claude Code \u00b7 Magnific",
   m:[["12","Piese livrate","Pieces delivered"],["9","Postari","Social posts"],["3","Materiale print","Print pieces"]],
   ro:{t:"Nirus-Retail",d:"Magazin online de produse returnate Amazon, de la site la continut.",
       s:"Un prieten cumpara paleti cu marfa returnata de pe Amazon si o revinde. I-am construit site-ul, logo-ul, pozele de produs si sistemul vizual din jurul lor. Marfa nu e mereu noua, deci nu ai ce ascunde. Am facut din asta unghiul: fiecare postare pune poza de catalog langa poza reala din hala, cu starea produsului scrisa pe ea. Acelasi limbaj continua pe flyerul si voucherele din colet."},
   en:{t:"Nirus-Retail",d:"An online shop for Amazon returns, from the website to the content.",
-      s:"A friend buys pallets of Amazon returns and resells them. I built his website, his logo, the product photography and the visual system around them. The stock is not always new, so there is nothing to hide. I made that the angle: every post puts the catalogue photo next to the real one from the warehouse, with the product condition stated on it. The same language carries on to the flyer and vouchers inside the parcel."}}
+      s:"A friend buys pallets of Amazon returns and resells them. I built his website, his logo, the product photography and the visual system around them. The stock is not always new, so there is nothing to hide. I made that the angle: every post puts the catalogue photo next to the real one from the warehouse, with the product condition stated on it. The same language carries on to the flyer and vouchers inside the parcel."}},
+ /* Studiu de caz pe capitole: fiecare capitol are textul lui si pozele lui (numerele fisierelor 01.webp, 02.webp...).
+    doc = PDF-ul complet din assets/docs/, apare ca buton sub capitole. */
+ {id:14,slug:"miere-kepes",shots:26,hasVideo:true,vert:true,cat:["branding","imagery","social"],video:true,tag:"Branding",year:"2026",
+  role:{ro:"Identitate · Logo · Etichete · Ambalaje · Social",en:"Identity · Logo · Labels · Packaging · Social"},
+  tools:"Claude · Magnific · CapCut",
+  m:[["41","pagini de brand book","page brand book"],["13","desene pentru soiuri","variety drawings"],["8","soiuri, 8 culori","varieties, 8 colours"]],
+  doc:"assets/docs/miere-kepes-identitate-vizuala.pdf",
+  chapters:[
+   {shots:[2,3,1],
+    ro:{h:"Povestea devine logo",p:"Familia își spune povestea simplu: totul a început de la o familie de albine. De acolo am pornit. Din trei litere picură câte o picătură de miere, una pentru fiecare generație, iar albina zboară din ultima literă mai departe, ca stupii care merg după flori."},
+    en:{h:"The story becomes the logo",p:"The family tells its story simply: it all started with one family of bees. That is where I began. Honey drips from three letters, one drop for each generation, and the bee flies off the last letter, onwards, like hives that move with the flowers."}},
+   {shots:[4,5,6,7,8,9,10],
+    ro:{h:"Un sistem, nu doar un logo",p:"Logo-ul are variante pentru fiecare fundal, plus o monogramă și o albină care pot sta și singure. Paleta se numește „Miere și ceară”: galben de salcâm, chihlimbar, maro de mană de brad și crem de ceară. Titlurile sunt în Fraunces, informațiile în Outfit, iar fiecare soi are desenul lui, făcut dintr-o singură linie."},
+    en:{h:"A system, not just a logo",p:"The logo has a version for every background, plus a monogram and a bee that can stand on their own. The palette is called “Honey and wax”: acacia yellow, amber, honeydew brown and wax cream. Headlines are set in Fraunces, information in Outfit, and every variety gets its own single line drawing."}},
+   {shots:[11,12,13,14,15,16,17],
+    ro:{h:"Etichetele",p:"Gama are opt soiuri și fiecare primește culoarea lui pe banda de jos, ca să-l recunoști de pe raft. Am mai făcut o ediție de familie cu aripi care se deschid, un borcan hexagonal pentru creme și o etichetă cu o linguriță decupată pe spate, prin care se vede mierea."},
+    en:{h:"The labels",p:"The range has eight varieties and each one gets its own colour on the bottom band, so you can spot it on the shelf. I also made a family edition with wings that open, a hexagonal jar for the creams and a back label with a spoon cut out of it, so you can see the honey through it."}},
+   {shots:[18,19,20,21,22,23,24,25,26],
+    ro:{h:"Brandul în viața reală",p:"Identitatea trebuia să meargă și dincolo de borcan: cutia cadou, săculețul cu sigiliu de ceară, punga, papetăria, standul din piață și duba. La final am propus și stilul de postări, cu patru tipuri, fiecare cu rolul lui."},
+    en:{h:"The brand out in the world",p:"The identity had to work beyond the jar too: the gift box, the pouch with its wax seal, the paper bag, the stationery, the market stall and the van. I finished with a posting style for social media, four types of post, each with its own job."}}
+  ],
+  ro:{t:"Miere Kepes",d:"Concept de identitate vizuală pentru o stupină de familie din Turda.",
+      s:"Miere Kepes e o afacere de familie din Turda, ajunsă la a treia generație de apicultori. Proiectul e un concept pe care l-am făcut din proprie inițiativă, ca propunere de rebranding. Am vrut să văd cum ar arăta povestea lor spusă de la logo până la borcan, fără să inventez nimic, doar punând în valoare ce au construit deja."},
+  en:{t:"Miere Kepes",d:"A visual identity concept for a family apiary in Turda.",
+      s:"Miere Kepes is a family business from Turda, now on its third generation of beekeepers. This is a concept I made on my own initiative, as a rebranding proposal. I wanted to see how their story would look told from the logo all the way to the jar, without inventing anything, just bringing out what they have already built."}}
 ];
 const T={ro:{year:"An",role:"Rol",tools:"Tooluri",strategy:"Abordarea",gallery:"Din proiect",
-  more:"Vezi proiectul",cta:"Cere ofertă",back:"← Înapoi"},
+  more:"Vezi proiectul",cta:"Cere ofertă",back:"← Înapoi",doc:"Vezi brand book-ul complet (PDF)"},
  en:{year:"Year",role:"Role",tools:"Tools",strategy:"The approach",gallery:"From the project",
-  more:"View more",cta:"Request a quote",back:"← Back"}};
+  more:"View more",cta:"Request a quote",back:"← Back",doc:"View the full brand book (PDF)"}};
 let LANG="en";
 
 const grid=document.getElementById("grid");
@@ -900,7 +934,11 @@ grid.addEventListener("click",e=>{
      <span>${T[LANG].tools} <b>${w.tools}</b></span>
    </div>
    <div class="metrics">${w.m.map(m=>`<div class="metric"><b>${m[0]}</b><span class="mono">${LANG==="ro"?m[1]:m[2]}</span></div>`).join("")}</div>
-   <div class="gallery" id="gal"></div>
+   ${w.chapters?w.chapters.map((ch,i)=>`<section class="chapter">
+       <span class="mono ch-k">${pad(i+1)} / ${pad(w.chapters.length)}</span>
+       <h3>${ch[LANG].h}</h3><p>${ch[LANG].p}</p>
+       <div class="gallery" id="gal-${i}"></div></section>`).join(""):`<div class="gallery" id="gal"></div>`}
+   ${w.doc?`<div class="doc-row"><a class="btn btn-ghost" href="${w.doc}" target="_blank" rel="noopener">${t.doc}</a></div>`:""}
    <div class="hero-row modal-actions"><a class="btn btn-solid" href="#contact" data-close>${t.cta}</a>
      <button class="btn btn-ghost" data-close>${t.back}</button></div>`;
   modal.classList.add("open");document.body.style.overflow="hidden";
@@ -993,6 +1031,14 @@ addEventListener("scroll",()=>{
 /* Galeria se aseaza dupa forma pozelor: doua verticale pe un rand,
    apoi una lata sau patrata pe tot randul, si tot asa. */
 function buildGallery(w){
+  if(w.chapters){
+    const all=shots(w);
+    w.chapters.forEach((ch,i)=>{
+      const el=document.getElementById("gal-"+i);
+      if(el)layoutGallery(el,ch.shots.map(n=>all[n-1]).filter(Boolean));
+    });
+    return;
+  }
   const el=document.getElementById("gal");if(!el)return;
   if(w.clips){
     el.classList.add("gal-clips");
@@ -1002,6 +1048,9 @@ function buildGallery(w){
     </button>`).join("");
     return;
   }
+  layoutGallery(el,shots(w));
+}
+function layoutGallery(el,list){
   const load=src=>new Promise(res=>{
     const im=new Image();
     im.onload=()=>res({src,r:im.naturalWidth/im.naturalHeight,v:im.naturalHeight>im.naturalWidth*1.08});
@@ -1012,7 +1061,7 @@ function buildGallery(w){
     };
     im.src=src;
   });
-  Promise.all(shots(w).map(load)).then(items=>{
+  Promise.all(list.map(load)).then(items=>{
     items=items.filter(Boolean);
     const V=items.filter(x=>x.v),W=items.filter(x=>!x.v),rows=[];
     while(V.length||W.length){
