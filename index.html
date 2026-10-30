@@ -918,7 +918,31 @@ const WORK=[
   ro:{t:"Șomartin Chocolate",d:"Concept de site și feed de Instagram pentru o ciocolaterie dintr-un sat săsesc.",
       s:"Șomartin Chocolate face ciocolată de mână într-o șură săsească de lângă Sibiu, iar alături are Șura Culinară, unde primește oaspeți la masă. Am făcut acest concept din proprie inițiativă. Am vrut să văd cum ar arăta povestea lor spusă online, de la prima pagină a site-ului până la feed."},
   en:{t:"Șomartin Chocolate",d:"A website and Instagram feed concept for a chocolate maker in a Saxon village.",
-      s:"Șomartin Chocolate makes chocolate by hand in a Saxon barn near Sibiu, and next door runs the Culinary Barn, where guests come to eat. I made this concept on my own initiative. I wanted to see how their story would look told online, from the first page of the website all the way to the feed."}}
+      s:"Șomartin Chocolate makes chocolate by hand in a Saxon barn near Sibiu, and next door runs the Culinary Barn, where guests come to eat. I made this concept on my own initiative. I wanted to see how their story would look told online, from the first page of the website all the way to the feed."}},
+ /* poster:"poster.webp" = cadrul afisat pe video inainte de play (altfel se vede primul cadru) */
+ {id:16,slug:"hanul-boierilor",shots:19,hasVideo:true,vert:true,poster:"poster.webp",cat:["branding","imagery","social"],video:true,tag:"Branding",year:"2026",
+  role:{ro:"Identitate · Logo · Meniu · Firmă · Ambalaje · Social",en:"Identity · Logo · Menu · Signage · Packaging · Social"},
+  tools:"Claude",
+  m:[["27","pagini de ghid","page brand guide"],["3","versiuni de logo","logo versions"],["5","culori în paletă","palette colours"]],
+  doc:"assets/docs/hanul-boierilor-identitate-vizuala.pdf",
+  chapters:[
+   {shots:[1,2,3,4,5],
+    ro:{h:"Povestea devine logo",p:"Legenda locului spune că Mihai Viteazul a poposit aici cu boierii săi. Logo-ul pune cușma boierească pe acoperișul hanului: acoperișul arată locul unde te oprești, iar cușma arată cum ești primit. L-am gândit să se citească în trei secunde, de la volan: întâi acoperișul, apoi cușma, apoi numele și anul."},
+    en:{h:"The story becomes the logo",p:"Local legend says Michael the Brave stopped here with his boyars. The logo puts a boyar's fur cap on top of the inn's roof: the roof tells you where to stop, the cap tells you how you will be welcomed. I designed it to be read in three seconds from behind the wheel: first the roof, then the cap, then the name and the year."}},
+   {shots:[6,7,8],
+    ro:{h:"Culori și fonturi",p:"Paleta se numește „Vin vechi și lut ars”, cu culori luate de pe masa hanului: vinul de Ardeal, castroanele de lut, lemnul vechi și fețele de masă. Titlurile sunt în Brygada 1918, textul în Source Sans 3, ambele cu toate diacriticele."},
+    en:{h:"Colours and type",p:"The palette is called “Old wine and fired clay”, with colours taken from the inn's own table: Transylvanian wine, clay bowls, old wood and linen tablecloths. Headlines are set in Brygada 1918 and body text in Source Sans 3, both with full Romanian diacritics."}},
+   {shots:[9,10,11,12,13,14],
+    ro:{h:"De la drum până la masă",p:"Am aplicat identitatea peste tot unde o vede oaspetele: firma luminoasă de pe acoperiș, peretele din sală, meniul, suportul de masă, servețelele și ambalajele pentru mâncarea la pachet."},
+    en:{h:"From the road to the table",p:"I applied the identity everywhere a guest sees it: the lit sign on the roof, the dining room wall, the menu, the placemat, the napkins and the takeaway packaging."}},
+   {shots:[15,16,17,18,19],
+    ro:{h:"Profilul de Instagram",p:"Pentru profil am făcut trei postări fixate, adică primul lucru pe care îl vede cine intră pe pagină: meniul zilei, povestea locului și cazarea."},
+    en:{h:"The Instagram profile",p:"For the profile I made three pinned posts, the first thing anyone sees on the page: the daily menu, the story of the place and the rooms."}}
+  ],
+  ro:{t:"Hanul Boierilor",d:"Concept de identitate vizuală pentru un han cu poveste din 1597.",
+      s:"Hanul Boierilor e un han din Mihai Viteazu, lângă Turda, cu o poveste care începe în 1597. Am făcut acest concept de rebranding din proprie inițiativă: logo, culori, fonturi, meniu, firmă, masa pusă, ambalaje și postările de pe profil. Nu am inventat nimic nou, am pornit de la povestea pe care hanul o are deja."},
+  en:{t:"Hanul Boierilor",d:"A visual identity concept for an inn with a story going back to 1597.",
+      s:"Hanul Boierilor is an inn in Mihai Viteazu, near Turda, with a story that starts in 1597. I made this rebranding concept on my own initiative: logo, colours, type, menu, signage, table setting, packaging and the posts on its profile. I didn't invent anything new, I started from the story the inn already has."}}
 ];
 const T={ro:{year:"An",role:"Rol",tools:"Tooluri",strategy:"Abordarea",gallery:"Din proiect",
   more:"Vezi proiectul",cta:"Cere ofertă",back:"← Înapoi",doc:"Vezi brand book-ul complet (PDF)",live:"Vezi site-ul live"},
@@ -952,7 +976,7 @@ grid.addEventListener("click",e=>{
   mIn.innerHTML=`
    <h2>${c.t}</h2>
    ${w.hasVideo?`<div class="modal-hero modal-video${w.vert?" vert":""}" id="mv">
-       <video id="mvv" playsinline preload="metadata" ${w.vert?"":`poster="${src}"`} src="${video(w)}#t=0.5" onloadedmetadata="if(this.videoHeight>this.videoWidth){this.parentNode.classList.add('vert');this.removeAttribute('poster')}"></video>
+       <video id="mvv" playsinline preload="${w.poster?"none":"metadata"}" ${w.poster?`poster="${BASE+w.slug+"/"+w.poster}"`:w.vert?"":`poster="${src}"`} src="${video(w)}${w.poster?"":"#t=0.5"}" onloadedmetadata="if(this.videoHeight>this.videoWidth){this.parentNode.classList.add('vert');${w.poster?"":"this.removeAttribute('poster')"}}"></video>
        <button class="playbtn" id="mvbtn" aria-label="Play">
          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
      </div>`:`<div class="modal-hero${w.vert?" vert":""}"><img src="${src}" alt="${c.t}" ${fallbackJpg}></div>`}
